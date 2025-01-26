@@ -1,29 +1,16 @@
+html,
 body {
   margin: 0;
   padding: 0;
-  background-color: #8d8d8d; /* Projector's neutral background */
-  display: flex;
-  justify-content: center;
-  align-items: center;
   overflow: hidden; /* Avoid scrollbars */
   width: 100vw;
   height: 100vh;
 }
 
-#root {
-  width: 100%; /* Projector width in landscape mode */
-  height: 100%; /* Projector height in landscape mode */
-  background-color: #8d8d8d;
+#app-container {
   position: relative;
-  overflow: hidden; /* Hide any overflow */
-}
-
-img {
-  width: 512px; /* Match the portrait height of the image */
-  transform: rotate(-90deg); /* Rotate the image counter-clockwise */
-  transform-origin: center;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  translate: -50% -50%; /* Ensure it's fully centered */
+  width: 100vw;
+  height: 100vh;
+  background-color: #8d8d8d;
+  overflow: hidden; /* hide any overflow */
 }

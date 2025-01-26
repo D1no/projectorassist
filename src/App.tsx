@@ -178,10 +178,10 @@ function App() {
   // where the rotated iPad image corners should land.
   // Tweak these to adjust alignment.
   const corners = {
-    topLeft: { x: 0, y: 0 },
-    topRight: { x: 100, y: 0 },
-    bottomRight: { x: 100, y: 100 },
-    bottomLeft: { x: 0, y: 100 },
+    topRight: { x: 90, y: 5 },
+    bottomRight: { x: 90, y: 95 },
+    topLeft: { x: 30, y: 5 },
+    bottomLeft: { x: 23, y: 95 },
   };
 
   // We'll measure the actual window size to convert percentages → pixels

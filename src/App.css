@@ -6,19 +6,20 @@ body {
   justify-content: center;
   align-items: center;
   overflow: hidden; /* Avoid scrollbars */
+  width: 100vw;
+  height: 100vh;
 }
 
 #root {
-  width: 1920px; /* Projector width in landscape mode */
-  height: 1024px; /* Projector height in landscape mode */
+  width: 100%; /* Projector width in landscape mode */
+  height: 100%; /* Projector height in landscape mode */
   background-color: #8d8d8d;
   position: relative;
   overflow: hidden; /* Hide any overflow */
 }
 
 img {
-  width: 1024px; /* Match the portrait height of the image */
-  height: 1366px; /* Match the portrait width of the image */
+  width: 512px; /* Match the portrait height of the image */
   transform: rotate(-90deg); /* Rotate the image counter-clockwise */
   transform-origin: center;
   position: absolute;

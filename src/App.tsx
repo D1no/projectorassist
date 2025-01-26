@@ -1,10 +1,10 @@
-import roadmap01 from "./assets/roadmaps_01.png";
+import alignmentImage from "./assets/projector_ipad_alignment_portrait.png";
 import "./App.css";
 
 function App() {
   return (
     <div id="root">
-      <img src={roadmap01} alt="Roadmap" />
+      <img src={alignmentImage} alt="iPad 12inch Portrait Alignment Image" />
     </div>
   );
 }

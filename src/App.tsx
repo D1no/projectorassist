@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import alignmentImage from "./assets/projector_ipad_alignment_portrait.png";
+import alignmentImage from "./projections/projector_ipad_alignment_portrait.png";
 import "./App.css";
 
 /**
@@ -178,10 +178,10 @@ function App() {
   // where the rotated iPad image corners should land.
   // Tweak these to adjust alignment.
   const corners = {
-    topLeft: { x: 20, y: 10 },
-    topRight: { x: 90, y: 10 },
-    bottomRight: { x: 90, y: 90 },
-    bottomLeft: { x: 10, y: 90 },
+    topLeft: { x: 0, y: 0 },
+    topRight: { x: 100, y: 0 },
+    bottomRight: { x: 100, y: 100 },
+    bottomLeft: { x: 0, y: 100 },
   };
 
   // We'll measure the actual window size to convert percentages → pixels

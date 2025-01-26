@@ -1,3 +1,8 @@
+# Projector Assist
+
+- Requires ImageMagick (`brew install imagemagick`) to rotate images
+- `util_apply_ipad_rotation` will rotate images in projections if they contain the string `portrait` in their filename and are not already rotated to landscape aspect ratio
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

@@ -6,11 +6,3 @@ body {
   width: 100vw;
   height: 100vh;
 }
-
-#app-container {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  background-color: #8d8d8d;
-  overflow: hidden; /* hide any overflow */
-}

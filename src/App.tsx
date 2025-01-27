@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, CSSProperties } from "react";
 import alignmentImage from "./assets/projection/ipad_alignment_portrait.png";
 import "./App.css";
 import { matrix3DForQuadToQuad } from "./lib/matrix3DForQuadToQuad";
@@ -58,10 +58,20 @@ function App() {
   // Compute CSS matrix3d
   const transformStr = matrix3DForQuadToQuad(srcQuad, dstQuad);
 
+  // The container div will be the full window size with relative sizing to
+  // freely position the image.
+  const containerStyle: CSSProperties = {
+    position: "relative",
+    width: "100vw",
+    height: "100vh",
+    overflow: "hidden",
+    backgroundColor: "#8d8d8d",
+  };
+
   // We'll absolutely position the image at (0,0) with its "natural" size
   // (1366x1024). Then apply the corner-pin transform so it lands in the
   // desired quad on screen.
-  const imgStyle: React.CSSProperties = {
+  const imgStyle: CSSProperties = {
     position: "absolute",
     left: 0,
     top: 0,
@@ -74,8 +84,8 @@ function App() {
   };
 
   return (
-    <div id="app-container">
-      <img src={alignmentImage} alt="Rotated iPad alignment" style={imgStyle} />
+    <div style={containerStyle}>
+      <img src={alignmentImage} style={imgStyle} />
     </div>
   );
 }

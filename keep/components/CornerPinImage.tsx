@@ -1,7 +1,7 @@
 /**
  * PURPOSE:
  *   A reusable React component that "corner-pins" (projective transforms)
- *   an image onto 4 specified corners in the browser window.
+ *   an image onto 4 specified corners in the browser globalThis.
  *
  * USAGE:
  *   - Import <CornerPinImage /> and render it with props:

@@ -1,3 +1,10 @@
+# build
+node_modules
+dist
+dist-ssr
+.vite
+*.local
+
 # Logs
 logs
 *.log
@@ -7,14 +14,9 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-.vite
-*.local
-
 # Editor directories and files
 .vscode/*
+!.vscode/settings.json
 !.vscode/extensions.json
 .idea
 .DS_Store

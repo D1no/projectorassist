@@ -6,12 +6,20 @@
     "serve": "deno run --allow-net --allow-read jsr:@std/http@1/file-server dist/"
   },
   "compilerOptions": {
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "jsxImportSourceTypes": "@types/react"
   },
   "imports": {
+    // Local to this Project
+    "#lib/": "../shared/lib/",
+    "#types/": "../shared/types/",
+    // Installed
     "@deno/vite-plugin": "npm:@deno/vite-plugin@^1.0.0",
     "@types/react": "npm:@types/react@^19.0.8",
     "@types/react-dom": "npm:@types/react-dom@^19.0.3",

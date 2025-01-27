@@ -17,7 +17,7 @@ command -v magick >/dev/null 2>&1 || {
 # Recursively find all .png files in ./src/projections
 # -iname makes it case-insensitive for .PNG vs .png
 # Then loop through them
-find ./src/projections -type f -iname "*.png" | while read -r FILE; do
+find ./src/assets/projection -type f -iname "*.png" | while read -r FILE; do
   # Check if the file name contains "portrait"
   if [[ "$FILE" == *"portrait"* ]]; then
     

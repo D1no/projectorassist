@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import alignmentImage from "./projections/projector_ipad_alignment_portrait.png";
+import alignmentImage from "./assets/projection/ipad_alignment_portrait.png";
 import "./App.css";
 import { matrix3DForQuadToQuad } from "./lib/matrix3DForQuadToQuad";
 

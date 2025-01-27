@@ -1,4 +1,33 @@
-import React, { CSSProperties } from "react";
+/**
+ * PURPOSE:
+ *   A reusable React component that "corner-pins" (projective transforms)
+ *   an image onto 4 specified corners in the browser window.
+ *
+ * USAGE:
+ *   - Import <CornerPinImage /> and render it with props:
+ *       src, corners, srcWidth, srcHeight, (optional) backgroundColor
+ *   - The 'corners' prop specifies topLeft, topRight, bottomRight,
+ *     bottomLeft in percentage coordinates of the viewport (0 to 100).
+ *
+ * EXAMPLE:
+ *   <CornerPinImage
+ *     src="/myImage.png"
+ *     srcWidth={1366}
+ *     srcHeight={1024}
+ *     corners={{
+ *       topLeft: { x: 10, y: 10 },
+ *       topRight: { x: 90, y: 10 },
+ *       bottomRight: { x: 90, y: 90 },
+ *       bottomLeft: { x: 10, y: 90 },
+ *     }}
+ *     backgroundColor="#cccccc"
+ *   />
+ *
+ * DEPENDENCIES:
+ *   - React (plus a custom useWindowSize hook).
+ *   - matrix3DForQuadToQuad.ts for computing the CSS transform.
+ */
+import { CSSProperties } from "react";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { matrix3DForQuadToQuad } from "../lib/matrix3DForQuadToQuad";
 

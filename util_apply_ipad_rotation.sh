@@ -1,10 +1,20 @@
 #!/usr/bin/env bash
 #
-# This script searches all .png files (including subfolders) under ./src/projections
-# If a file name contains "portrait" AND the image is taller than it is wide (not landscape),
-# it rotates the file -90° (counter-clockwise) in place.
+# PURPOSE:
+#   This script recursively searches for PNG files in ./src/projections
+#   whose names contain "portrait" and checks if they have a portrait
+#   aspect ratio (height > width). If so, it rotates them in-place
+#   by -90° (counter-clockwise) using ImageMagick v7 (the 'magick' command).
 #
-# Requires ImageMagick v7+ (which uses the 'magick' CLI).
+# HOW TO USE:
+#   1) Make the script executable: chmod +x util_apply_ipad_rotation.sh
+#   2) Run it: ./util_apply_ipad_rotation.sh
+#   3) All matching files are automatically rotated in-place.
+#
+# REQUIREMENTS:
+#   - ImageMagick v7+ installed (providing the 'magick' CLI).
+#   - Bash shell (or compatible).
+#
 
 set -euo pipefail
 

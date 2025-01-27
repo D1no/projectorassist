@@ -1,4 +1,30 @@
 /**
+ * PURPOSE:
+ *   Provides a function `matrix3DForQuadToQuad` that takes two quads (each with 4 points)
+ *   in 2D space and computes the CSS `matrix3d(...)` transform that maps the first quad
+ *   onto the second. This is used for corner pinning (projective transformations) in React.
+ *
+ * USAGE:
+ *   - Import the function into your React component or hook.
+ *   - Pass a source quad (4 points: topLeft, topRight, bottomRight, bottomLeft) and
+ *     a destination quad (where those corners should appear on-screen).
+ *   - The function returns a string for CSS transforms, e.g. "matrix3d(...)".
+ *
+ * EXAMPLE:
+ *   const transformStr = matrix3DForQuadToQuad(
+ *     [ [0,0], [400,0], [400,300], [0,300] ],
+ *     [ [10,10], [300,50], [350,250], [20,220] ]
+ *   );
+ *
+ *   // Then apply it in your style:
+ *   style={{ transform: transformStr, transformOrigin: '0 0' }}
+ *
+ * DEPENDENCIES:
+ *   - This file also includes helper functions for solving linear systems
+ *     and computing homography (projective) transformations.
+ */
+
+/**
  * Helper to build a 3D matrix for a 2D projective transform.
  *
  * - srcPts: 4 source points [[x0,y0],[x1,y0],[x2,y2],[x3,y3]]

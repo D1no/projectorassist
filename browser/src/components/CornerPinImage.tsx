@@ -28,8 +28,8 @@
  *   - matrix3DForQuadToQuad.ts for computing the CSS transform.
  */
 import { CSSProperties } from "react";
-import { useWindowSize } from "../hooks/useWindowSize";
-import { matrix3DForQuadToQuad } from "../lib/matrix3DForQuadToQuad";
+import { useWindowSize } from "../hooks/useWindowSize.ts";
+import { matrix3DForQuadToQuad } from "#lib/matrix3DForQuadToQuad.tsx";
 
 type Point = { x: number; y: number };
 

@@ -1,7 +1,10 @@
 import { Server } from "https://deno.land/x/socket_io@0.2.1/mod.ts";
 
+const PORT = 3001;
+
 const io = new Server({
   cors: {
+    // DO NOT USE THIS IN PRODUCTION
     origin: "*",
   },
 });
@@ -18,5 +21,5 @@ io.on("connection", (socket) => {
 
 Deno.serve({
   handler: io.handler(),
-  port: 3001,
+  port: PORT,
 });

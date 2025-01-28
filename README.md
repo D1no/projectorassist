@@ -1,19 +1,16 @@
-# Vite + Deno + React + TypeScript
+# Projector Assist
+
+A Keystone tool to project images onto a surface via a video projector. Useful for tracing images. In this case, an ipad
+to achieve cleaner live or recorded white boarding in the iPads notes app.
 
 ## Running
 
+To run the project in one go, run the following command:
+
+```bash
+deno run -A npm:concurrently "cd server && deno task dev" "cd browser && deno task dev"
+```
+
+## Dependencies
+
 You need to have Deno v2.0.0 or later installed to run this repo.
-
-Start a dev server:
-
-```
-$ deno task dev
-```
-
-## Deploy
-
-Build production assets:
-
-```
-$ deno task build
-```

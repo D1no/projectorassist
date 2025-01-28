@@ -1,6 +1,6 @@
 // App.tsx
-import { CornerPinImage } from "./components/CornerPinImage";
-import alignmentImage from "./assets/projection/ipad_alignment_portrait.png";
+import { CornerPinImage } from "./components/CornerPinImage.tsx";
+import alignmentImage from "./assets/projection/ipad_alignment_portrait.png"; // Ensure this path is correct
 
 function App() {
   // Example corners in percent of screen size:

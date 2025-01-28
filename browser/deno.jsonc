@@ -17,6 +17,7 @@
   },
   "imports": {
     // Local to this Project
+    // Needs to be identical with vite.config.ts aliases
     "#lib/": "../shared/lib/",
     "#types/": "../shared/types/",
     // Installed

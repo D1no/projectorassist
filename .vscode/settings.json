@@ -1,3 +1,10 @@
 {
-  "deno.enable": true
+  "deno.enable": true,
+  // Hiding rarely looked at files
+  "files.exclude": {
+    "**/*.lock": true,
+    "**/node_modules": true,
+    // Vite specific
+    "**/.vite": true,
+  }
 }

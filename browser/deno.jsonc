@@ -20,6 +20,7 @@
     // Needs to be identical with vite.config.ts aliases
     "#lib/": "../shared/lib/",
     "#types/": "../shared/types/",
+    "#assets/": "../assets/",
     // Installed
     "@deno/vite-plugin": "npm:@deno/vite-plugin@^1.0.0",
     "@types/react": "npm:@types/react@^19.0.8",

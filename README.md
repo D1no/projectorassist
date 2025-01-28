@@ -1,7 +1,9 @@
 # Projector Assist
 
-A Keystone tool to project images onto a surface via a video projector. Useful for tracing images. In this case, an ipad
-to achieve cleaner live or recorded white boarding in the iPads notes app.
+A small Keystone tool to project images onto a surface via a video projector. Useful for tracing images. In this case,
+an ipad to achieve cleaner live or recorded white boarding in the iPads notes app.
+
+![Example Aligning with iPad Screen](./assets/docs/2025-01-28_projector_assist_websocket_keystone.gif)
 
 ## Running
 

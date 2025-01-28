@@ -1,7 +1,4 @@
 import { Server } from "https://deno.land/x/socket_io@0.2.1/mod.ts";
-import { phrase } from "#lib/hello.ts";
-
-console.log(phrase);
 
 const io = new Server({
   cors: {

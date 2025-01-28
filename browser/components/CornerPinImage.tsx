@@ -31,14 +31,8 @@ import { CSSProperties } from "react";
 import { useWindowSize } from "../hooks/useWindowSize.ts";
 import { matrix3DForQuadToQuad } from "#lib/matrix3DForQuadToQuad.tsx";
 
-type Point = { x: number; y: number };
-
-type Corners = {
-  topLeft: Point;
-  topRight: Point;
-  bottomRight: Point;
-  bottomLeft: Point;
-};
+// Import your shared types
+import { Corners } from "#types/cornerTypes.ts";
 
 interface CornerPinImageProps {
   /** The image source URL or import. */
@@ -53,11 +47,6 @@ interface CornerPinImageProps {
   backgroundColor?: string;
 }
 
-/**
- * Renders a full-page container with a corner-pinned image.
- * The image is placed at (0,0) in its natural size (srcWidth x srcHeight),
- * then transformed so that each corner lines up with the given `corners`.
- */
 export function CornerPinImage({
   src,
   corners,
@@ -79,10 +68,7 @@ export function CornerPinImage({
     [xPx(corners.bottomLeft.x), yPx(corners.bottomLeft.y)],
   ];
 
-  // Source quad: the untransformed bounding box of the image.
-  // For example, if you previously rotated the asset externally
-  // so that it is 1366x1024 in "landscape", then:
-  //   (0,0) -> (srcWidth,0) -> (srcWidth,srcHeight) -> (0,srcHeight)
+  // Source quad: the untransformed bounding box of the image
   const srcQuad: [number, number][] = [
     [0, 0],
     [srcWidth, 0],
@@ -90,7 +76,7 @@ export function CornerPinImage({
     [0, srcHeight],
   ];
 
-  // Compute the matrix for corner-pinning
+  // Compute the projective transform
   const transformStr = matrix3DForQuadToQuad(srcQuad, dstQuad);
 
   // Styles:

@@ -1,36 +1,17 @@
-// App.tsx
-import { CornerPinImage } from "./components/CornerPinImage.tsx";
-import alignmentImage from "#assets/projection/ipad_alignment_portrait.png";
-import reactLogo from "#assets/react.svg";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Projector } from "./page/Projector.tsx";
+import { CornerControlPage } from "./page/CornerControlPage.tsx";
 
-function App() {
-  // Example corners in percent of screen size:
-  const corners = {
-    topLeft: { x: 30, y: 15 },
-    topRight: { x: 90, y: 5 },
-    bottomRight: { x: 90, y: 95 },
-    bottomLeft: { x: 30, y: 95 },
-  };
-
+export function App() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <CornerPinImage
-        src={alignmentImage}
-        corners={corners}
-        srcWidth={1366} // e.g. after you physically rotated the image to landscape
-        srcHeight={1024} // ...
-        backgroundColor="#8d8d8d"
-      />
-    </>
+    <BrowserRouter>
+      <Routes>
+        {/* Projector is the default route */}
+        <Route path="/" element={<Projector />} />
+
+        {/* The control UI */}
+        <Route path="/control" element={<CornerControlPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
-
-export default App;

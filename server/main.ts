@@ -1,11 +1,9 @@
 import { Server } from "https://deno.land/x/socket_io@0.2.1/mod.ts";
-
-// Example: If you have shared types in ./shared/types/cornerTypes.ts
-// and an alias "#types" => "../shared/types" in your deno.jsonc:
 import { Corners } from "#types/cornerTypes.ts";
 
-const WEBSOCKET_PORT = 3001;
+export const WEBSOCKET_PORT = 3001;
 
+// TODO: Save to disk debounced by 4 seconds.
 /**
  * In-memory corners state shared among all connections.
  * Adjust the default values to whatever you prefer.

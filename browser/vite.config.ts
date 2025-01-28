@@ -3,6 +3,8 @@ import deno from "@deno/vite-plugin";
 import react from "@vitejs/plugin-react";
 import { resolve } from "node:path";
 
+const BROWSER_PORT = 3000;
+
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [deno(), react()],
@@ -14,5 +16,10 @@ export default defineConfig({
       "#types": resolve(__dirname, "../shared/types"),
       "#assets": resolve(__dirname, "../assets"),
     },
+  },
+  server: {
+    port: BROWSER_PORT,
+    strictPort: true,
+    host: true,
   },
 });

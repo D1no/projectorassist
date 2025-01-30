@@ -1,6 +1,4 @@
-// browser/CornerControlPage.tsx
-
-import React, {
+import {
   useState,
   useEffect,
   useRef,
@@ -87,14 +85,12 @@ export function CornerControlPage() {
 
     // Convert device px -> % shift, based on the chosen precision
 
-    // TODO: Fix ChatGPTs Type Errors here
-    const factor = precisionMap[precision]; // e.g. 0.1 for 'full'
+    const factor = precisionMap[precision as keyof typeof precisionMap]; // e.g. 0.1 for 'full'
     // Negative dy means you moved up, so corner.y might decrease
     // We'll do corner.x += dx * factor, corner.y += dy * factor
     const updatedCorners: Corners = structuredClone(corners);
 
-    // TODO: Fix ChatGPTs Type Errors here
-    const cornerObj = updatedCorners[selectedCorner];
+    const cornerObj = updatedCorners[selectedCorner as CornerKey];
     cornerObj.x += dx * factor;
     cornerObj.y += dy * factor;
 

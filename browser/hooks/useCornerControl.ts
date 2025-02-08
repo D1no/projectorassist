@@ -2,6 +2,13 @@ import { PointerEvent, useEffect, useRef, useState } from "react";
 import socket from "../lib/socket.ts";
 import type { Corners } from "#types/cornerTypes.ts";
 
+const initialCornerCordinates: Corners = {
+  topLeft: { x: 30, y: 5 },
+  topRight: { x: 90, y: 5 },
+  bottomRight: { x: 90, y: 95 },
+  bottomLeft: { x: 30, y: 95 },
+};
+
 /** Our possible corner IDs: keys of the Corners type. */
 export type CornerKey = keyof Corners;
 
@@ -15,18 +22,13 @@ export type PrecisionMode = keyof typeof precisionMap;
 
 /**
  * A custom React hook that manages corner data, pointer dragging,
- * precision selection, and real-time socket updates (now globally throttled to ~30 FPS).
+ * precision selection, and real-time socket updates.
  */
 export function useCornerControl() {
   // -----------------------
   // 1) STATE
   // -----------------------
-  const [corners, setCorners] = useState<Corners>({
-    topLeft: { x: 30, y: 5 },
-    topRight: { x: 90, y: 5 },
-    bottomRight: { x: 90, y: 95 },
-    bottomLeft: { x: 30, y: 95 },
-  });
+  const [corners, setCorners] = useState(initialCornerCordinates);
   const [selectedCorner, setSelectedCorner] = useState<CornerKey>("topLeft");
   const [precision, setPrecision] = useState<PrecisionMode>("full");
 

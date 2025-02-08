@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { useWindowSize } from "../hooks/useWindowSize.ts";
 import { matrix3DForQuadToQuad } from "#lib/matrix3DForQuadToQuad.tsx";
 
-import type { Corners } from "#types/cornerTypes.ts";
+import type { CornersViewportCoordinates } from "#types/cornerTypes.ts";
 
 /**
  * PURPOSE:
@@ -38,7 +38,7 @@ interface CornerPinImageProps {
   /** The image source URL or import. */
   src: string;
   /** The corners in percentages of the viewport (0-100). */
-  corners: Corners;
+  corners: CornersViewportCoordinates;
   /** The original (untransformed) width of the image. */
   srcWidth: number;
   /** The original (untransformed) height of the image. */

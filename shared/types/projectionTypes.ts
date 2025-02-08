@@ -15,3 +15,25 @@ export enum ProjectionBackgroundColor {
    */
   Align = "#FF13F0", // Neon Pink
 }
+
+/**
+ * Projector orientation of the video projector.
+ */
+export enum ProjectorOrientation {
+  /**
+   * The video projector is in a default landscape orientation.
+   */
+  Landscape = "landscape",
+  /**
+   * The video projector is in an inverted landscape orientation.
+   */
+  LandscapeInverted = "landscape-inverted",
+  /**
+   * The video projector is in portrait orientation.
+   */
+  Portrait = "portrait",
+  /**
+   * The video projector is in an inverted portrait orientation.
+   */
+  PortraitInverted = "portrait-inverted",
+}

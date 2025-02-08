@@ -1,8 +1,8 @@
 import { PointerEvent, useEffect, useRef, useState } from "react";
 import socket from "../lib/socket.ts";
-import type { Corners } from "#types/cornerTypes.ts";
+import type { CornersViewportCoordinates } from "#types/cornerTypes.ts";
 
-const initialCornerCordinates: Corners = {
+const initialCornerCordinates: CornersViewportCoordinates = {
   topLeft: { x: 30, y: 5 },
   topRight: { x: 90, y: 5 },
   bottomRight: { x: 90, y: 95 },
@@ -10,7 +10,7 @@ const initialCornerCordinates: Corners = {
 };
 
 /** Our possible corner IDs: keys of the Corners type. */
-export type CornerKey = keyof Corners;
+export type CornerKey = keyof CornersViewportCoordinates;
 
 /** Mapping from "precision mode" to how many percentage points we move per pixel. */
 const precisionMap = {
@@ -40,7 +40,7 @@ export function useCornerControl() {
   // 2) EFFECTS: Socket Listener
   // -----------------------
   useEffect(() => {
-    const handleCornersUpdate = (newCorners: Corners) => {
+    const handleCornersUpdate = (newCorners: CornersViewportCoordinates) => {
       setCorners(newCorners);
     };
     socket.on("corners:update", handleCornersUpdate);
@@ -72,7 +72,9 @@ export function useCornerControl() {
     const factor = precisionMap[precision as keyof typeof precisionMap];
 
     // Clone corners so we can mutate them safely
-    const updatedCorners = structuredClone(corners) as Corners;
+    const updatedCorners = structuredClone(
+      corners,
+    ) as CornersViewportCoordinates;
     const cornerObj = updatedCorners[selectedCorner as CornerKey];
 
     // Nudge x/y

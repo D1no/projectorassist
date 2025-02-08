@@ -1,9 +1,11 @@
+import { useEffect } from "react";
 import styled from "@emotion/styled";
 import {
   useCornerControl,
   CornerKey,
   PrecisionMode,
 } from "../hooks/useCornerControl.ts";
+import { useProjectionBackground } from "../hooks/useProjectionBackground.ts";
 
 /* Styled Components */
 
@@ -22,17 +24,19 @@ const ButtonGroup = styled.div`
   gap: 8px;
 `;
 
-interface StyledButtonProps {
-  selected: boolean;
-}
-
-const Button = styled.button<StyledButtonProps>`
-  border: ${({ selected }) => (selected ? "2px solid blue" : "1px solid gray")};
+const Button = styled.button`
   padding: 0.5rem 1rem;
   background: transparent;
   cursor: pointer;
   transition: border 0.2s ease;
+`;
 
+interface StyledButtonProps {
+  selected: boolean;
+}
+
+const ButtonSwitch = styled(Button)<StyledButtonProps>`
+  border: ${({ selected }) => (selected ? "2px solid blue" : "1px solid gray")};
   &:hover {
     border-color: ${({ selected }) => (selected ? "darkblue" : "black")};
   }
@@ -66,7 +70,16 @@ export function CornerControlPage() {
     handlePointerDown,
     handlePointerMove,
     handlePointerUp,
+    isDragging,
   } = useCornerControl();
+
+  const { handleBackgroundColorToggle, handleBackgroundColorAligning } =
+    useProjectionBackground();
+
+  // Whenever isDragging changes, update the background aligning state.
+  useEffect(() => {
+    handleBackgroundColorAligning(isDragging);
+  }, [isDragging, handleBackgroundColorAligning]);
 
   return (
     <Container>
@@ -77,13 +90,13 @@ export function CornerControlPage() {
         {(
           ["topLeft", "topRight", "bottomRight", "bottomLeft"] as CornerKey[]
         ).map((ck) => (
-          <Button
+          <ButtonSwitch
             key={ck}
             selected={ck === selectedCorner}
             onClick={() => handleCornerSelect(ck)}
           >
             {ck}
-          </Button>
+          </ButtonSwitch>
         ))}
       </ButtonGroup>
 
@@ -99,16 +112,18 @@ export function CornerControlPage() {
       {/* Precision selection */}
       <ButtonGroup>
         {(["full", "quarter", "detail"] as PrecisionMode[]).map((mode) => (
-          <Button
+          <ButtonSwitch
             key={mode}
             selected={mode === precision}
             onClick={() => handlePrecisionSelect(mode)}
           >
             {mode}
-          </Button>
+          </ButtonSwitch>
         ))}
       </ButtonGroup>
-
+      <Button onClick={() => handleBackgroundColorToggle()}>
+        Toggle Background Color
+      </Button>
       <p>
         Currently adjusting: <strong>{selectedCorner}</strong>
       </p>

@@ -7,6 +7,7 @@ import {
 } from "#types/networkSocketEvents.ts";
 
 import { registerCornerHandlers } from "./controllers/cornerController.ts";
+import { registerProjectionHandlers } from "./controllers/projectionController.ts";
 
 // Create the Socket.IO server
 const io = new Server<ClientToServerEvents, ServerToClientEvents>({
@@ -24,6 +25,7 @@ io.on("connection", (socket) => {
   // Register event controllers
   // ==============================
   registerCornerHandlers(socket, io);
+  registerProjectionHandlers(socket, io);
 
   // ==============================
 

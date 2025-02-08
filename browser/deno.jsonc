@@ -12,8 +12,9 @@
       "DOM.Iterable"
     ],
     "jsx": "react-jsx",
-    "jsxImportSource": "react",
-    "jsxImportSourceTypes": "@types/react"
+    //
+    "jsxImportSource": "@emotion/react",
+    "jsxImportSourceTypes": "@emotion/react"
   },
   "imports": {
     // Local to this Project
@@ -23,6 +24,9 @@
     "#assets/": "../assets/",
     // Installed
     "@deno/vite-plugin": "npm:@deno/vite-plugin@^1.0.0",
+    "@emotion/babel-plugin": "npm:@emotion/babel-plugin@^11.13.5",
+    "@emotion/react": "npm:@emotion/react@^11.14.0",
+    "@emotion/styled": "npm:@emotion/styled@^11.14.0",
     "@types/react": "npm:@types/react@^19.0.8",
     "@types/react-dom": "npm:@types/react-dom@^19.0.3",
     "@vitejs/plugin-react": "npm:@vitejs/plugin-react@^4.3.4",

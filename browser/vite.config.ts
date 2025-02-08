@@ -7,7 +7,15 @@ const BROWSER_PORT = 3000;
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [deno(), react()],
+  plugins: [
+    deno(),
+    react({
+      jsxImportSource: "@emotion/react",
+      babel: {
+        plugins: ["@emotion/babel-plugin"],
+      },
+    }),
+  ],
   publicDir: resolve(__dirname, "../assets/public"),
   resolve: {
     alias: {

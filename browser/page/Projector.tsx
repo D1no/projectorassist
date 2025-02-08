@@ -6,7 +6,7 @@ import alignmentImage from "#assets/projection/ipad_alignment_portrait.png";
 import type { Corners } from "#types/cornerTypes.ts";
 
 // Import the Socket.IO client instance
-import { socket } from "../lib/socket.ts";
+import socket from "../lib/socket.ts";
 
 export function Projector() {
   // Local state for the corners

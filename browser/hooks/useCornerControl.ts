@@ -1,5 +1,5 @@
 import { PointerEvent, useEffect, useRef, useState } from "react";
-import { socket } from "../lib/socket.ts";
+import socket from "../lib/socket.ts";
 import type { Corners } from "#types/cornerTypes.ts";
 
 /** Our possible corner IDs: keys of the Corners type. */
@@ -15,7 +15,7 @@ export type PrecisionMode = keyof typeof precisionMap;
 
 /**
  * A custom React hook that manages corner data, pointer dragging,
- * precision selection, and real-time socket updates at ~30 FPS.
+ * precision selection, and real-time socket updates (now globally throttled to ~30 FPS).
  */
 export function useCornerControl() {
   // -----------------------
@@ -34,9 +34,6 @@ export function useCornerControl() {
   const [isDragging, setIsDragging] = useState(false);
   const lastPointerPos = useRef<{ x: number; y: number } | null>(null);
 
-  // For 30 FPS limiting (socket emits)
-  const lastEmitTime = useRef<number>(0);
-
   // -----------------------
   // 2) EFFECTS: Socket Listener
   // -----------------------
@@ -52,19 +49,7 @@ export function useCornerControl() {
   }, []);
 
   // -----------------------
-  // 3) SOCKET EMIT THROTTLE
-  // -----------------------
-  function maybeEmitCorners(updated: Corners) {
-    const now = performance.now();
-    // Only emit if >= ~33ms since last emit (~30 FPS)
-    if (now - lastEmitTime.current > 1000 / 30) {
-      socket.emit("corners:change", updated);
-      lastEmitTime.current = now;
-    }
-  }
-
-  // -----------------------
-  // 4) POINTER HANDLERS
+  // 3) POINTER HANDLERS
   // -----------------------
   function handlePointerDown(e: PointerEvent<HTMLDivElement>) {
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
@@ -81,10 +66,10 @@ export function useCornerControl() {
     // Update last pointer so subsequent moves are relative
     lastPointerPos.current = { x: e.clientX, y: e.clientY };
 
-    // Convert device px -> % shift, based on the chosen precision
+    // Convert device pixels to percentage shifts, based on the chosen precision
     const factor = precisionMap[precision as keyof typeof precisionMap];
 
-    // Clone corners so we can mutate
+    // Clone corners so we can mutate them safely
     const updatedCorners = structuredClone(corners) as Corners;
     const cornerObj = updatedCorners[selectedCorner as CornerKey];
 
@@ -99,8 +84,8 @@ export function useCornerControl() {
     // Update local state
     setCorners(updatedCorners);
 
-    // Throttled emit
-    maybeEmitCorners(updatedCorners);
+    // Emit new corners (global throttling in socket.ts applies)
+    socket.emit("corners:change", updatedCorners);
   }
 
   function handlePointerUp(e: PointerEvent<HTMLDivElement>) {
@@ -108,12 +93,12 @@ export function useCornerControl() {
     setIsDragging(false);
     lastPointerPos.current = null;
 
-    // Optionally do one final emit
+    // Final emit (subject to global throttle)
     socket.emit("corners:change", corners);
   }
 
   // -----------------------
-  // 5) ACTIONS: Select Corner / Precision
+  // 4) ACTIONS: Select Corner / Precision
   // -----------------------
   function handleCornerSelect(cornerKey: CornerKey) {
     setSelectedCorner(cornerKey);
@@ -124,7 +109,7 @@ export function useCornerControl() {
   }
 
   // -----------------------
-  // 6) RETURN HOOK API
+  // 5) RETURN HOOK API
   // -----------------------
   return {
     corners,

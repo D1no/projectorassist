@@ -17,9 +17,9 @@ export enum ProjectionBackgroundColor {
 }
 
 /**
- * Projector orientation of the video projector.
+ * Orientation of the video projector.
  */
-export enum ProjectorOrientation {
+export enum ProjectionOrientation {
   /**
    * The video projector is in a default landscape orientation.
    */

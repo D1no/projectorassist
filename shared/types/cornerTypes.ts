@@ -3,7 +3,7 @@
  * Used by both server (e.g. for websocket events) and client (React).
  */
 
-import { ProjectorOrientation } from "./projectionTypes.ts";
+import { ProjectionOrientation } from "./projectionTypes.ts";
 
 export type Point = {
   x: number;
@@ -24,7 +24,7 @@ export type CornersViewportCoordinates = {
  * Depending on the projector orientation, mapping the viewport corners to user perspective.
  */
 export type CornersUserPerspective = {
-  [Orientation in keyof typeof ProjectorOrientation]: {
+  [Orientation in keyof typeof ProjectionOrientation]: {
     [Corner in keyof CornersViewportCoordinates]:
       keyof CornersViewportCoordinates;
   };

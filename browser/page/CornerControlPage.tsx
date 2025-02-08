@@ -1,16 +1,62 @@
-import { CSSProperties } from "react";
+import styled from "@emotion/styled";
 import {
   useCornerControl,
   CornerKey,
   PrecisionMode,
 } from "../hooks/useCornerControl.ts";
 
-/**
- * A presentational component that uses the `useCornerControl` hook
- * to render a corner calibration interface with a circular "touchpad".
- */
+/* Styled Components */
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+  gap: 16px;
+  max-width: 400px;
+  margin: 0 auto;
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+
+interface StyledButtonProps {
+  selected: boolean;
+}
+
+const Button = styled.button<StyledButtonProps>`
+  border: ${({ selected }) => (selected ? "2px solid blue" : "1px solid gray")};
+  padding: 0.5rem 1rem;
+  background: transparent;
+  cursor: pointer;
+  transition: border 0.2s ease;
+
+  &:hover {
+    border-color: ${({ selected }) => (selected ? "darkblue" : "black")};
+  }
+`;
+
+const Touchpad = styled.div`
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+  user-select: none;
+`;
+
+const Preformatted = styled.pre`
+  font-size: 12px;
+`;
+
+/* Component */
+
 export function CornerControlPage() {
-  // Use our custom hook to get state & handlers
   const {
     corners,
     selectedCorner,
@@ -22,88 +68,46 @@ export function CornerControlPage() {
     handlePointerUp,
   } = useCornerControl();
 
-  // Basic styles
-  const containerStyle: CSSProperties = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    padding: 16,
-    gap: 16,
-    maxWidth: 400,
-    margin: "0 auto",
-  };
-
-  const cornerSelectStyle: CSSProperties = {
-    display: "flex",
-    gap: 8,
-  };
-
-  const precisionSelectStyle: CSSProperties = {
-    display: "flex",
-    gap: 8,
-  };
-
-  // A "circular" touchpad ~200x200
-  const touchpadStyle: CSSProperties = {
-    width: 200,
-    height: 200,
-    borderRadius: "50%",
-    backgroundColor: "#ccc",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    touchAction: "none", // Important for pointer events on touch devices
-    userSelect: "none",
-  };
-
   return (
-    <div style={containerStyle}>
+    <Container>
       <h1>Corner Control</h1>
 
       {/* Corner selection */}
-      <div style={cornerSelectStyle}>
+      <ButtonGroup>
         {(
           ["topLeft", "topRight", "bottomRight", "bottomLeft"] as CornerKey[]
         ).map((ck) => (
-          <button
+          <Button
             key={ck}
-            style={{
-              border:
-                ck === selectedCorner ? "2px solid blue" : "1px solid gray",
-              padding: "0.5rem 1rem",
-            }}
+            selected={ck === selectedCorner}
             onClick={() => handleCornerSelect(ck)}
           >
             {ck}
-          </button>
+          </Button>
         ))}
-      </div>
+      </ButtonGroup>
 
       {/* Touchpad */}
-      <div
-        style={touchpadStyle}
+      <Touchpad
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
       >
         Drag here
-      </div>
+      </Touchpad>
 
       {/* Precision selection */}
-      <div style={precisionSelectStyle}>
+      <ButtonGroup>
         {(["full", "quarter", "detail"] as PrecisionMode[]).map((mode) => (
-          <button
+          <Button
             key={mode}
-            style={{
-              border: mode === precision ? "2px solid blue" : "1px solid gray",
-              padding: "0.5rem 1rem",
-            }}
+            selected={mode === precision}
             onClick={() => handlePrecisionSelect(mode)}
           >
             {mode}
-          </button>
+          </Button>
         ))}
-      </div>
+      </ButtonGroup>
 
       <p>
         Currently adjusting: <strong>{selectedCorner}</strong>
@@ -112,7 +116,7 @@ export function CornerControlPage() {
         Precision: <strong>{precision}</strong>
       </p>
       <p>Corners state:</p>
-      <pre style={{ fontSize: 12 }}>{JSON.stringify(corners, null, 2)}</pre>
-    </div>
+      <Preformatted>{JSON.stringify(corners, null, 2)}</Preformatted>
+    </Container>
   );
 }

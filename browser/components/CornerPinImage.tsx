@@ -1,3 +1,9 @@
+import styled from "@emotion/styled";
+import { useWindowSize } from "../hooks/useWindowSize.ts";
+import { matrix3DForQuadToQuad } from "#lib/matrix3DForQuadToQuad.tsx";
+
+import type { Corners } from "#types/cornerTypes.ts";
+
 /**
  * PURPOSE:
  *   A reusable React component that "corner-pins" (projective transforms)
@@ -27,12 +33,6 @@
  *   - React (plus a custom useWindowSize hook).
  *   - matrix3DForQuadToQuad.ts for computing the CSS transform.
  */
-import { CSSProperties } from "react";
-import { useWindowSize } from "../hooks/useWindowSize.ts";
-import { matrix3DForQuadToQuad } from "#lib/matrix3DForQuadToQuad.tsx";
-
-// Import your shared types
-import type { Corners } from "#types/cornerTypes.ts";
 
 interface CornerPinImageProps {
   /** The image source URL or import. */
@@ -46,6 +46,34 @@ interface CornerPinImageProps {
   /** The background color for the container. Default: "#8d8d8d". */
   backgroundColor?: string;
 }
+
+interface ContainerProps {
+  backgroundColor: string;
+}
+
+const Container = styled.div<ContainerProps>`
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: ${(props) => props.backgroundColor};
+`;
+
+interface PinnedImageProps {
+  srcWidth: number;
+  srcHeight: number;
+  transform: string;
+}
+
+const PinnedImage = styled.img<PinnedImageProps>`
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: ${(props) => props.srcWidth}px;
+  height: ${(props) => props.srcHeight}px;
+  transform-origin: 0 0;
+  transform: ${(props) => props.transform};
+`;
 
 export function CornerPinImage({
   src,
@@ -79,28 +107,15 @@ export function CornerPinImage({
   // Compute the projective transform
   const transformStr = matrix3DForQuadToQuad(srcQuad, dstQuad);
 
-  // Styles:
-  const containerStyle: CSSProperties = {
-    position: "relative",
-    width: "100vw",
-    height: "100vh",
-    overflow: "hidden",
-    backgroundColor,
-  };
-
-  const imgStyle: CSSProperties = {
-    position: "absolute",
-    left: 0,
-    top: 0,
-    width: srcWidth,
-    height: srcHeight,
-    transformOrigin: "0 0",
-    transform: transformStr,
-  };
-
   return (
-    <div style={containerStyle}>
-      <img src={src} style={imgStyle} alt="Corner-pinned projection" />
-    </div>
+    <Container backgroundColor={backgroundColor}>
+      <PinnedImage
+        src={src}
+        srcWidth={srcWidth}
+        srcHeight={srcHeight}
+        transform={transformStr}
+        alt="Corner-pinned projection"
+      />
+    </Container>
   );
 }

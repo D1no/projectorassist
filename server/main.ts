@@ -1,5 +1,5 @@
 import { Server } from "https://deno.land/x/socket_io@0.2.1/mod.ts";
-import { Corners } from "#types/cornerTypes.ts";
+import type { Corners } from "#types/cornerTypes.ts";
 
 export const WEBSOCKET_PORT = 3001;
 

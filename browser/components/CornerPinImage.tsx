@@ -32,7 +32,7 @@ import { useWindowSize } from "../hooks/useWindowSize.ts";
 import { matrix3DForQuadToQuad } from "#lib/matrix3DForQuadToQuad.tsx";
 
 // Import your shared types
-import { Corners } from "#types/cornerTypes.ts";
+import type { Corners } from "#types/cornerTypes.ts";
 
 interface CornerPinImageProps {
   /** The image source URL or import. */

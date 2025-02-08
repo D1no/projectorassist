@@ -1,6 +1,6 @@
 import { PointerEvent, useEffect, useRef, useState } from "react";
 import { socket } from "../lib/socket.ts";
-import { Corners } from "#types/cornerTypes.ts";
+import type { Corners } from "#types/cornerTypes.ts";
 
 /** Our possible corner IDs: keys of the Corners type. */
 export type CornerKey = keyof Corners;

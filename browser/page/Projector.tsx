@@ -3,7 +3,7 @@ import { CornerPinImage } from "../components/CornerPinImage.tsx";
 import alignmentImage from "#assets/projection/ipad_alignment_portrait.png";
 
 // If you have a shared "Corners" type, import it:
-import { Corners } from "#types/cornerTypes.ts";
+import type { Corners } from "#types/cornerTypes.ts";
 
 // Import the Socket.IO client instance
 import { socket } from "../lib/socket.ts";

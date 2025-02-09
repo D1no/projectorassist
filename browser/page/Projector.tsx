@@ -2,15 +2,16 @@ import { CornerPinImage } from "../components/CornerPinImage.tsx";
 import { useCornerControl } from "../hooks/useCornerControl.ts";
 import { useProjectionBackground } from "../hooks/useProjectionBackground.ts";
 
-import getSlide from "#lib/getSlide.ts";
+import { useSlide } from "../hooks/useSlide.ts";
 
 export function Projector() {
   const { cornersViewport } = useCornerControl();
   const { backgroundColor } = useProjectionBackground();
+  const { slide } = useSlide();
 
   return (
     <CornerPinImage
-      src={getSlide(0).urlRelative}
+      src={slide}
       corners={cornersViewport}
       srcWidth={1366}
       srcHeight={1024}

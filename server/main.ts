@@ -9,6 +9,7 @@ import {
 
 import { registerCornerHandlers } from "./controllers/cornerController.ts";
 import { registerProjectionHandlers } from "./controllers/projectionController.ts";
+import { registerSlideHandler } from "./controllers/slideController.ts";
 
 async function main() {
   // Wait for our data store to be loaded so it is ready for our handlers.
@@ -28,6 +29,7 @@ async function main() {
     // Register event controllers.
     registerCornerHandlers(socket, io);
     registerProjectionHandlers(socket, io);
+    registerSlideHandler(socket, io);
 
     socket.on("disconnect", (reason) => {
       console.log(`socket ${socket.id} disconnected due to ${reason}`);

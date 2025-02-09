@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Projector } from "./page/Projector.tsx";
 import { CornerControlPage } from "./page/CornerControlPage.tsx";
+import { SlideClicker } from "./page/SlideClicker.tsx";
 
 export function App() {
   return (
@@ -9,8 +10,10 @@ export function App() {
         {/* Projector is the default route */}
         <Route path="/" element={<Projector />} />
 
-        {/* The control UI */}
+        {/* The alignment control UI */}
         <Route path="/control" element={<CornerControlPage />} />
+
+        <Route path="/clicker" element={<SlideClicker />} />
       </Routes>
     </BrowserRouter>
   );

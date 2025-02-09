@@ -44,6 +44,7 @@ export interface ServerToClientEvents {
   "action:projection:orientation:update": (
     orientation: ProjectionOrientation,
   ) => void;
+  "action:slides:currentSlide:update": (slide: number) => void;
 }
 
 // ==============================
@@ -62,4 +63,5 @@ export interface ClientToServerEvents {
   "action:projection:orientation:change": (
     orientation: ProjectionOrientation,
   ) => void;
+  "action:slides:currentSlide:change": (slide: number) => void;
 }

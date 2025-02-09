@@ -1,3 +1,4 @@
+import { SERVER_BASE_URL, SERVER_PORT } from "../../config.ts";
 import type { CornersViewportCoordinates } from "./cornerTypes.ts";
 import {
   ProjectionBackgroundColor,
@@ -5,11 +6,17 @@ import {
 } from "./projectionTypes.ts";
 
 /**
+ * Change to ip address of the server in the network.
+ * I.e. http://192.168.1.20 of your local network.
+ */
+const BASE_URL = SERVER_BASE_URL ? SERVER_BASE_URL : "http://localhost";
+
+/**
  * URL and Port of the Websocket Server
  */
-export const WEBSOCKET_SERVER_URL = "http://localhost:3001";
+export const WEBSOCKET_PORT = SERVER_PORT ? SERVER_PORT : 3001;
 
-export const WEBSOCKET_PORT = 3001;
+export const WEBSOCKET_SERVER_URL = `${BASE_URL}:${WEBSOCKET_PORT}`;
 
 /**
  * Drop socket events client side that go above the following frames per second.

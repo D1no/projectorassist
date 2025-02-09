@@ -1,5 +1,12 @@
-# project local state
+# project
+
+# config
+config.ts
+
+# local state
 db.json
+
+# =========================
 
 # build
 node_modules

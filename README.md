@@ -13,7 +13,8 @@ To run the project in one go, run the following command:
 deno run -A npm:concurrently "cd server && deno task dev" "cd browser && deno task dev"
 ```
 
-Persists state changes to `server/db.json` (every 3 seconds if changes exist).
+ - Edit `config.example.ts` and rename to `config.ts`. Otherwise default localhost.
+ - Persists state changes to `server/db.json` (every 3 seconds if changes exist).
 
 ## Using
 

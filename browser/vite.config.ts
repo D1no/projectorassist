@@ -8,7 +8,10 @@ const BROWSER_PORT = 3000;
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
+    // TODO: Check if the typing can be fixed.
+    // @ts-ignore: Deno seems to not understand the plugins array.
     deno(),
+    // @ts-ignore: Deno seems to not understand the plugins array.
     react({
       jsxImportSource: "@emotion/react",
       babel: {

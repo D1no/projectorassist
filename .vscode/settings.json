@@ -6,5 +6,6 @@
     "**/node_modules": true,
     // Vite specific
     "**/.vite": true,
-  }
+  },
+  "git.followTagsWhenSync": true
 }

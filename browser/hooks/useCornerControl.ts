@@ -98,11 +98,6 @@ export function useCornerControl() {
     const viewportCornerKey: CornerKey =
       cornerMapping[selectedCornerUserPerspective];
 
-    // Debug log: show what user perspective maps to.
-    console.log(
-      `[DEBUG] User-selected corner '${selectedCornerUserPerspective}' maps to viewport corner '${viewportCornerKey}' in orientation '${orientation}'.`,
-    );
-
     // Get the corner object from the cloned corners.
     const cornerObj = updatedViewportCorners[viewportCornerKey];
 

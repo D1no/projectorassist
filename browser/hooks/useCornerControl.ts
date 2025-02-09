@@ -1,6 +1,11 @@
 import { PointerEvent, useEffect, useRef, useState } from "react";
 import socket from "../lib/socket.ts";
-import type { CornersViewportCoordinates } from "#types/cornerTypes.ts";
+import {
+  type CornersViewportCoordinates,
+  getCornerAsignmentFromUserPerspective,
+  translateAxisDirectionUserPerspectiveToViewport,
+} from "#types/cornerTypes.ts";
+import { useProjectionOrientation } from "./useProjectionOrientation.ts";
 
 const initialCornerCordinates: CornersViewportCoordinates = {
   topLeft: { x: 30, y: 5 },
@@ -25,10 +30,17 @@ export type PrecisionMode = keyof typeof precisionMap;
  * precision selection, and real-time socket updates.
  */
 export function useCornerControl() {
+  const { orientation } = useProjectionOrientation();
+
+  // Compute the mapping from user perspective to actual viewport coordinates.
+  // For example, if the projector is in Portrait mode, this mapping might be:
+  // { topLeft: "topRight", topRight: "bottomRight", bottomRight: "bottomLeft", bottomLeft: "topLeft" }
+  const cornerMapping = getCornerAsignmentFromUserPerspective(orientation);
+
   // -----------------------
   // 1) STATE
   // -----------------------
-  const [corners, setCorners] = useState(initialCornerCordinates);
+  const [cornersViewport, setCorners] = useState(initialCornerCordinates);
   const [selectedCorner, setSelectedCorner] = useState<CornerKey>("topLeft");
   const [precision, setPrecision] = useState<PrecisionMode>("full");
 
@@ -73,13 +85,17 @@ export function useCornerControl() {
 
     // Clone corners so we can mutate them safely
     const updatedCorners = structuredClone(
-      corners,
+      cornersViewport,
     ) as CornersViewportCoordinates;
     const cornerObj = updatedCorners[selectedCorner as CornerKey];
 
+    // Translate the users delta movement on the touchpad to the viewport
+    const { x, y } = translateAxisDirectionUserPerspectiveToViewport
+      [orientation](dx, dy);
+
     // Nudge x/y
-    cornerObj.x += dx * factor;
-    cornerObj.y += dy * factor;
+    cornerObj.x += x * factor;
+    cornerObj.y += y * factor;
 
     // Clamp within [0..100]
     cornerObj.x = Math.max(0, Math.min(100, cornerObj.x));
@@ -98,7 +114,7 @@ export function useCornerControl() {
     lastPointerPos.current = null;
 
     // Final emit (subject to global throttle)
-    socket.emit("corners:change", corners);
+    socket.emit("corners:change", cornersViewport);
   }
 
   // -----------------------
@@ -116,7 +132,7 @@ export function useCornerControl() {
   // 5) RETURN HOOK API
   // -----------------------
   return {
-    corners,
+    cornersViewport,
     selectedCorner,
     precision,
     isDragging,

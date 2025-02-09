@@ -26,6 +26,7 @@ export function useProjectionOrientation() {
 
   return {
     orientation,
+    orientationOptions: Object.values(ProjectionOrientation),
     handleOrientationSet,
   };
 }

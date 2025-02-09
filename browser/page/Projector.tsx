@@ -5,13 +5,13 @@ import { useCornerControl } from "../hooks/useCornerControl.ts";
 import { useProjectionBackground } from "../hooks/useProjectionBackground.ts";
 
 export function Projector() {
-  const { corners } = useCornerControl();
+  const { cornersViewport } = useCornerControl();
   const { backgroundColor } = useProjectionBackground();
 
   return (
     <CornerPinImage
       src={alignmentImage}
-      corners={corners}
+      corners={cornersViewport}
       srcWidth={1366}
       srcHeight={1024}
       backgroundColor={backgroundColor}

@@ -6,6 +6,8 @@ import {
   PrecisionMode,
 } from "../hooks/useCornerControl.ts";
 import { useProjectionBackground } from "../hooks/useProjectionBackground.ts";
+import { useProjectionOrientation } from "../hooks/useProjectionOrientation.ts";
+import { ProjectionOrientation } from "#types/projectionTypes.ts";
 
 /* Styled Components */
 
@@ -42,6 +44,21 @@ const ButtonSwitch = styled(Button)<StyledButtonProps>`
   }
 `;
 
+const Dropdown = styled.select`
+  padding: 0.5rem;
+  border: 1px solid gray;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  transition: border 0.2s ease;
+  margin-top: 16px; /* Add margin to position it correctly */
+  &:hover {
+    border-color: black;
+  }
+`;
+
+const DropdownOption = styled.option``;
+
 const Touchpad = styled.div`
   width: 200px;
   height: 200px;
@@ -62,7 +79,7 @@ const Preformatted = styled.pre`
 
 export function CornerControlPage() {
   const {
-    corners,
+    cornersViewport,
     selectedCorner,
     precision,
     handleCornerSelect,
@@ -75,6 +92,9 @@ export function CornerControlPage() {
 
   const { handleBackgroundColorToggle, handleBackgroundColorAligning } =
     useProjectionBackground();
+
+  const { orientation, orientationOptions, handleOrientationSet } =
+    useProjectionOrientation();
 
   // Whenever isDragging changes, update the background aligning state.
   useEffect(() => {
@@ -124,14 +144,26 @@ export function CornerControlPage() {
       <Button onClick={() => handleBackgroundColorToggle()}>
         Toggle Background Color
       </Button>
+      <Dropdown
+        value={orientation}
+        onChange={(e) =>
+          handleOrientationSet(e.target.value as ProjectionOrientation)
+        }
+      >
+        {orientationOptions.map((mode) => (
+          <DropdownOption key={mode} value={mode}>
+            {mode}
+          </DropdownOption>
+        ))}
+      </Dropdown>
       <p>
         Currently adjusting: <strong>{selectedCorner}</strong>
       </p>
       <p>
         Precision: <strong>{precision}</strong>
       </p>
-      <p>Corners state:</p>
-      <Preformatted>{JSON.stringify(corners, null, 2)}</Preformatted>
+      <p>Corners Viewport State:</p>
+      <Preformatted>{JSON.stringify(cornersViewport, null, 2)}</Preformatted>
     </Container>
   );
 }

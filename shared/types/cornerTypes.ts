@@ -60,7 +60,7 @@ export const mappingCornersUserPerspective: MappingCornersUserPerspective = {
   },
 } as const;
 
-export type CornerAsignmentFromUserPerspective = {
+type CornerAsignmentFromUserPerspective = {
   [Corner in keyof CornersViewportCoordinates]:
     keyof CornersViewportCoordinates;
 };
@@ -81,3 +81,20 @@ export function getCornerAsignmentFromUserPerspective(
 ): CornerAsignmentFromUserPerspective {
   return mappingCornersUserPerspective[orientation];
 }
+
+type translateAxisDirectionUserPerspectiveToViewport = {
+  [Orientation in ProjectionOrientation]: (
+    x: number,
+    y: number,
+  ) => Point;
+};
+
+/**
+ * Translate the axis direction from the user perspective to the viewport based on the projector orientation. Important for nudging the corners in the UI.
+ */
+export const translateAxisDirectionUserPerspectiveToViewport = {
+  Landscape: (x: number, y: number) => ({ x, y }),
+  LandscapeInverted: (x: number, y: number) => ({ x: x * -1, y: y * -1 }),
+  Portrait: (x: number, y: number) => ({ x: y, y: x * -1 }),
+  PortraitInverted: (x: number, y: number) => ({ x: y * -1, y: x }),
+} as const;

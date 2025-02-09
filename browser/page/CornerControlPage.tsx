@@ -80,9 +80,9 @@ const Preformatted = styled.pre`
 export function CornerControlPage() {
   const {
     cornersViewport,
-    selectedCorner,
+    selectedCornerUserPerspective,
     precision,
-    handleCornerSelect,
+    handleCornerUserPerspectiveSelect,
     handlePrecisionSelect,
     handlePointerDown,
     handlePointerMove,
@@ -112,8 +112,8 @@ export function CornerControlPage() {
         ).map((ck) => (
           <ButtonSwitch
             key={ck}
-            selected={ck === selectedCorner}
-            onClick={() => handleCornerSelect(ck)}
+            selected={ck === selectedCornerUserPerspective}
+            onClick={() => handleCornerUserPerspectiveSelect(ck)}
           >
             {ck}
           </ButtonSwitch>
@@ -157,7 +157,7 @@ export function CornerControlPage() {
         ))}
       </Dropdown>
       <p>
-        Currently adjusting: <strong>{selectedCorner}</strong>
+        Currently adjusting: <strong>{selectedCornerUserPerspective}</strong>
       </p>
       <p>
         Precision: <strong>{precision}</strong>

@@ -1,8 +1,8 @@
-import { PointerEvent, useEffect, useRef, useState } from "react";
+import { PointerEvent, useEffect, useMemo, useRef, useState } from "react";
 import socket from "../lib/socket.ts";
 import {
   type CornersViewportCoordinates,
-  getCornerAsignmentFromUserPerspective,
+  getCornersMappingUserPerspectiveToViewport,
   translateAxisDirectionUserPerspectiveToViewport,
 } from "#types/cornerTypes.ts";
 import { useProjectionOrientation } from "./useProjectionOrientation.ts";
@@ -28,20 +28,30 @@ export type PrecisionMode = keyof typeof precisionMap;
 /**
  * A custom React hook that manages corner data, pointer dragging,
  * precision selection, and real-time socket updates.
+ *
+ * It differentiates between the corner the user selects (user perspective)
+ * and the actual viewport corner that should be updated.
  */
 export function useCornerControl() {
   const { orientation } = useProjectionOrientation();
 
-  // Compute the mapping from user perspective to actual viewport coordinates.
-  // For example, if the projector is in Portrait mode, this mapping might be:
-  // { topLeft: "topRight", topRight: "bottomRight", bottomRight: "bottomLeft", bottomLeft: "topLeft" }
-  const cornerMapping = getCornerAsignmentFromUserPerspective(orientation);
+  // Recompute the mapping whenever the orientation changes.
+  const cornerMapping = useMemo(
+    () => getCornersMappingUserPerspectiveToViewport(orientation),
+    [orientation],
+  );
 
   // -----------------------
   // 1) STATE
   // -----------------------
-  const [cornersViewport, setCorners] = useState(initialCornerCordinates);
-  const [selectedCorner, setSelectedCorner] = useState<CornerKey>("topLeft");
+  // Holds the actual viewport corner coordinates.
+  const [cornersViewport, setViewportCorners] = useState(
+    initialCornerCordinates,
+  );
+  // Holds the corner selected on the phone (from the user's perspective).
+  const [selectedCornerUserPerspective, setSelectedCorner] = useState<
+    CornerKey
+  >("topLeft");
   const [precision, setPrecision] = useState<PrecisionMode>("full");
 
   // For pointer dragging
@@ -53,10 +63,9 @@ export function useCornerControl() {
   // -----------------------
   useEffect(() => {
     const handleCornersUpdate = (newCorners: CornersViewportCoordinates) => {
-      setCorners(newCorners);
+      setViewportCorners(newCorners);
     };
     socket.on("corners:update", handleCornersUpdate);
-
     return () => {
       socket.off("corners:update", handleCornersUpdate);
     };
@@ -76,51 +85,50 @@ export function useCornerControl() {
 
     const dx = e.clientX - lastPointerPos.current.x;
     const dy = e.clientY - lastPointerPos.current.y;
-
-    // Update last pointer so subsequent moves are relative
     lastPointerPos.current = { x: e.clientX, y: e.clientY };
 
-    // Convert device pixels to percentage shifts, based on the chosen precision
-    const factor = precisionMap[precision as keyof typeof precisionMap];
+    const factor = precisionMap[precision];
 
-    // Clone corners so we can mutate them safely
-    const updatedCorners = structuredClone(
+    // Clone the current corners for mutation.
+    const updatedViewportCorners = structuredClone(
       cornersViewport,
     ) as CornersViewportCoordinates;
-    const cornerObj = updatedCorners[selectedCorner as CornerKey];
 
-    // Translate the users delta movement on the touchpad to the viewport
+    // Apply the mapping: translate the user-selected corner to the actual viewport corner.
+    const viewportCornerKey: CornerKey =
+      cornerMapping[selectedCornerUserPerspective];
+
+    // Debug log: show what user perspective maps to.
+    console.log(
+      `[DEBUG] User-selected corner '${selectedCornerUserPerspective}' maps to viewport corner '${viewportCornerKey}' in orientation '${orientation}'.`,
+    );
+
+    // Get the corner object from the cloned corners.
+    const cornerObj = updatedViewportCorners[viewportCornerKey];
+
+    // Translate the pointer delta (dx, dy) from user perspective to viewport.
     const { x, y } = translateAxisDirectionUserPerspectiveToViewport
       [orientation](dx, dy);
 
-    // Nudge x/y
-    cornerObj.x += x * factor;
-    cornerObj.y += y * factor;
+    // Update the coordinates.
+    cornerObj.x = Math.max(0, Math.min(100, cornerObj.x + x * factor));
+    cornerObj.y = Math.max(0, Math.min(100, cornerObj.y + y * factor));
 
-    // Clamp within [0..100]
-    cornerObj.x = Math.max(0, Math.min(100, cornerObj.x));
-    cornerObj.y = Math.max(0, Math.min(100, cornerObj.y));
-
-    // Update local state
-    setCorners(updatedCorners);
-
-    // Emit new corners (global throttling in socket.ts applies)
-    socket.emit("corners:change", updatedCorners);
+    setViewportCorners(updatedViewportCorners);
+    socket.emit("corners:change", updatedViewportCorners);
   }
 
   function handlePointerUp(e: PointerEvent<HTMLDivElement>) {
     (e.target as HTMLElement).releasePointerCapture(e.pointerId);
     setIsDragging(false);
     lastPointerPos.current = null;
-
-    // Final emit (subject to global throttle)
     socket.emit("corners:change", cornersViewport);
   }
 
   // -----------------------
   // 4) ACTIONS: Select Corner / Precision
   // -----------------------
-  function handleCornerSelect(cornerKey: CornerKey) {
+  function handleCornerUserPerspectiveSelect(cornerKey: CornerKey) {
     setSelectedCorner(cornerKey);
   }
 
@@ -133,10 +141,10 @@ export function useCornerControl() {
   // -----------------------
   return {
     cornersViewport,
-    selectedCorner,
+    selectedCornerUserPerspective,
     precision,
     isDragging,
-    handleCornerSelect,
+    handleCornerUserPerspectiveSelect,
     handlePrecisionSelect,
     handlePointerDown,
     handlePointerMove,

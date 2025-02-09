@@ -53,33 +53,55 @@ export const mappingCornersUserPerspective: MappingCornersUserPerspective = {
     bottomLeft: "topLeft",
   },
   PortraitInverted: {
-    topLeft: "bottomRight",
-    topRight: "bottomLeft",
-    bottomRight: "topLeft",
-    bottomLeft: "topRight",
+    topLeft: "bottomLeft",
+    topRight: "topLeft",
+    bottomRight: "topRight",
+    bottomLeft: "bottomRight",
   },
 } as const;
 
-type CornerAsignmentFromUserPerspective = {
+type CornerToCornerMapping = {
   [Corner in keyof CornersViewportCoordinates]:
     keyof CornersViewportCoordinates;
 };
 
 /**
- * Get the corner asignment from the user perspective based on the projector orientation. Example: If the projector is in in portrait orientation, the corner asignment from the user perspective is:
- * ```
+ * Get the corner assignment from the viewport to the user perspective.
+ * In other words, given the projector orientation, this mapping tells you
+ * what the viewport's "topLeft" should be called on the user’s controller device.
+ *
+ * Example: For portrait orientation:
  * {
  *  topLeft: "topRight",
  *  topRight: "bottomRight",
  *  bottomRight: "bottomLeft",
  *  bottomLeft: "topLeft",
  * }
- * ```
  */
-export function getCornerAsignmentFromUserPerspective(
+export function getCornersMappingViewportToUserPerspective(
   orientation: ProjectionOrientation,
-): CornerAsignmentFromUserPerspective {
+): CornerToCornerMapping {
   return mappingCornersUserPerspective[orientation];
+}
+
+/**
+ * Get the corner assignment from the user perspective to the viewport.
+ * This is simply the reverse mapping of `getCornersMappingViewportToUserPerspective`.
+ * For example, if the projector is in portrait orientation, the "topRight" corner on
+ * the user's device corresponds to the "topLeft" corner in the viewport.
+ */
+export function getCornersMappingUserPerspectiveToViewport(
+  orientation: ProjectionOrientation,
+): CornerToCornerMapping {
+  const mapping = getCornersMappingViewportToUserPerspective(orientation);
+  const reverseMapping: CornerToCornerMapping = {} as CornerToCornerMapping;
+  for (
+    const [viewportCorner, userPerspectiveCorner] of Object.entries(mapping)
+  ) {
+    reverseMapping[userPerspectiveCorner] =
+      viewportCorner as keyof CornersViewportCoordinates;
+  }
+  return reverseMapping;
 }
 
 type translateAxisDirectionUserPerspectiveToViewport = {

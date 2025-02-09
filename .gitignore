@@ -1,5 +1,9 @@
 # project
 
+# my content files
+assets/slides/*
+!assets/slides/*alignment*
+
 # config
 config.ts
 

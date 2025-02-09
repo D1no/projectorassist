@@ -28,7 +28,7 @@ command -v magick >/dev/null 2>&1 || {
 }
 
 # Recursively find all .png files in the script's own assets/slides directory
-find "$SCRIPT_DIR/assets/projections" -type f -iname "*.png" | while read -r FILE; do
+find "$SCRIPT_DIR/assets/slides" -type f -iname "*.png" | while read -r FILE; do
   # Check if the file name contains "portrait"
   if [[ "$FILE" == *"portrait"* ]]; then
     

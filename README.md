@@ -15,6 +15,8 @@ deno run -A npm:concurrently "cd server && deno task dev" "cd browser && deno ta
 
  - Edit `config.example.ts` and rename to `config.ts`. Otherwise default localhost.
  - Persists state changes to `server/db.json` (every 3 seconds if changes exist).
+ - `util_apply_ipad_portrait_rotation.sh` will rotate images in `assets/projections/*` if they contain the string `portrait` in their filename and are not already rotated to landscape aspect ratio.
+    > This is to be able to author slides in portrait mode for an iPad screen and project them correctly in the viewport.
 
 ## Using
 
@@ -23,4 +25,5 @@ deno run -A npm:concurrently "cd server && deno task dev" "cd browser && deno ta
 
 ## Dependencies
 
-You need to have Deno v2.0.0 or later installed to run this repo.
+- Requires ImageMagick (brew install imagemagick) to rotate images
+- You need to have Deno v2.0.0 or later installed to run this repo.

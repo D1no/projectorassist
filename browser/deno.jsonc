@@ -1,9 +1,10 @@
 {
   "tasks": {
-    "dev": "deno run -A --node-modules-dir npm:vite dev",
-    "build": "deno run -A --node-modules-dir npm:vite build",
-    "preview": "deno run -A --node-modules-dir npm:vite preview",
-    "serve": "deno run --allow-net --allow-read jsr:@std/http@1/file-server dist/"
+    "dev": "deno run rotate_portraits & deno run -A --node-modules-dir npm:vite dev",
+    "build": "deno run rotate_portraits & deno run -A --node-modules-dir npm:vite build",
+    "preview": "deno run rotate_portraits & deno run -A --node-modules-dir npm:vite preview",
+    "serve": "deno run rotate_portraits & deno run --allow-net --allow-read jsr:@std/http@1/file-server dist/",
+    "rotate_portraits": "../util_apply_ipad_portrait_rotation.sh"
   },
   "compilerOptions": {
     "lib": [

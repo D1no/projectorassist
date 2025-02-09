@@ -1,5 +1,8 @@
-import type { Corners } from "./cornerTypes.ts";
-import { ProjectionBackgroundColor } from "./projectionTypes.ts";
+import type { CornersViewportCoordinates } from "./cornerTypes.ts";
+import {
+  ProjectionBackgroundColor,
+  ProjectionOrientation,
+} from "./projectionTypes.ts";
 
 /**
  * URL and Port of the Websocket Server
@@ -26,10 +29,13 @@ export const THROTTELING_EXCLUDE = "action:";
  * Interface representing the events sent from the server to the client.
  */
 export interface ServerToClientEvents {
-  "corners:update": (data: Corners) => void;
+  "corners:update": (data: CornersViewportCoordinates) => void;
   // Add other events that the server sends to the client.
   "action:projection:background:update": (
     color: ProjectionBackgroundColor,
+  ) => void;
+  "action:projection:orientation:update": (
+    orientation: ProjectionOrientation,
   ) => void;
 }
 
@@ -41,9 +47,12 @@ export interface ServerToClientEvents {
  * Interface representing the events sent from the client to the server.
  */
 export interface ClientToServerEvents {
-  "corners:change": (data: Corners) => void;
+  "corners:change": (data: CornersViewportCoordinates) => void;
   // Excluded from throttle
   "action:projection:background:change": (
     color: ProjectionBackgroundColor,
+  ) => void;
+  "action:projection:orientation:change": (
+    orientation: ProjectionOrientation,
   ) => void;
 }

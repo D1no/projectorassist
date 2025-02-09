@@ -23,8 +23,8 @@ export type CornersViewportCoordinates = {
 /**
  * Depending on the projector orientation, mapping the viewport corners to user perspective.
  */
-export type CornersUserPerspective = {
-  [Orientation in keyof typeof ProjectionOrientation]: {
+export type MappingCornersUserPerspective = {
+  [Orientation in ProjectionOrientation]: {
     [Corner in keyof CornersViewportCoordinates]:
       keyof CornersViewportCoordinates;
   };
@@ -33,7 +33,7 @@ export type CornersUserPerspective = {
 /**
  * Aisgnment of the corners in user perspective based on the projector orientation. Used for aligning the corners in the UI from the user perspective.
  */
-export const cornersUserPerspective: CornersUserPerspective = {
+export const mappingCornersUserPerspective: MappingCornersUserPerspective = {
   Landscape: {
     topLeft: "topLeft",
     topRight: "topRight",
@@ -59,3 +59,25 @@ export const cornersUserPerspective: CornersUserPerspective = {
     bottomLeft: "topRight",
   },
 } as const;
+
+export type CornerAsignmentFromUserPerspective = {
+  [Corner in keyof CornersViewportCoordinates]:
+    keyof CornersViewportCoordinates;
+};
+
+/**
+ * Get the corner asignment from the user perspective based on the projector orientation. Example: If the projector is in in portrait orientation, the corner asignment from the user perspective is:
+ * ```
+ * {
+ *  topLeft: "topRight",
+ *  topRight: "bottomRight",
+ *  bottomRight: "bottomLeft",
+ *  bottomLeft: "topLeft",
+ * }
+ * ```
+ */
+export function getCornerAsignmentFromUserPerspective(
+  orientation: ProjectionOrientation,
+): CornerAsignmentFromUserPerspective {
+  return mappingCornersUserPerspective[orientation];
+}

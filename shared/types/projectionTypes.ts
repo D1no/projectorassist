@@ -23,17 +23,17 @@ export enum ProjectionOrientation {
   /**
    * The video projector is in a default landscape orientation.
    */
-  Landscape = "landscape",
+  Landscape = "Landscape",
   /**
    * The video projector is in an inverted landscape orientation.
    */
-  LandscapeInverted = "landscape-inverted",
+  LandscapeInverted = "LandscapeInverted",
   /**
    * The video projector is in portrait orientation.
    */
-  Portrait = "portrait",
+  Portrait = "Portrait",
   /**
    * The video projector is in an inverted portrait orientation.
    */
-  PortraitInverted = "portrait-inverted",
+  PortraitInverted = "PortraitInverted",
 }

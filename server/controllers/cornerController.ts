@@ -5,14 +5,7 @@ import type {
 } from "#types/networkSocketEvents.ts";
 
 import type { CornersViewportCoordinates } from "#types/cornerTypes.ts";
-
-// In-memory state for corners.
-let cornersState: CornersViewportCoordinates = {
-  topLeft: { x: 30, y: 5 },
-  topRight: { x: 90, y: 5 },
-  bottomRight: { x: 90, y: 95 },
-  bottomLeft: { x: 30, y: 95 },
-};
+import { DB } from "../model/db_json.ts";
 
 /**
  * Register event handlers for corner functionality.
@@ -25,15 +18,15 @@ export function registerCornerHandlers(
   io: Server<ClientToServerEvents, ServerToClientEvents>,
 ) {
   // Immediately send the current corners state to the new client.
-  socket.emit("corners:update", cornersState);
+  socket.emit("corners:update", DB.corners);
 
   // Listen for corner change events.
   socket.on("corners:change", (newCorners: CornersViewportCoordinates) => {
     // Update the in-memory state.
-    cornersState = { ...newCorners };
+    DB.corners = { ...newCorners };
 
     // Broadcast updated state to all clients.
-    io.emit("corners:update", cornersState);
-    console.log("Corners updated:", cornersState);
+    io.emit("corners:update", DB.corners);
+    console.log("Corners updated.");
   });
 }

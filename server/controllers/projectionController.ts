@@ -8,10 +8,7 @@ import {
   ProjectionBackgroundColor,
   ProjectionOrientation,
 } from "#types/projectionTypes.ts";
-
-// In-memory state for projection background color.
-let projectionBackgroundColor = ProjectionBackgroundColor.Invisible;
-let projectorOrientation = ProjectionOrientation.Portrait;
+import { DB } from "../model/db_json.ts";
 
 /**
  * Register event handlers for projection background functionality.
@@ -24,20 +21,32 @@ export function registerProjectionHandlers(
   io: Server<ClientToServerEvents, ServerToClientEvents>,
 ) {
   // Immediately send the current projection background color to the new client.
-  socket.emit("action:projection:background:update", projectionBackgroundColor);
+  socket.emit(
+    "action:projection:background:update",
+    DB.projection.backgroundColor,
+  );
   // Immediately send the current projector orientation to the new client.
-  socket.emit("action:projection:orientation:update", projectorOrientation);
+  socket.emit(
+    "action:projection:orientation:update",
+    DB.projection.orientation,
+  );
 
   // Listen for projection background change events.
   socket.on(
     "action:projection:background:change",
     (color: ProjectionBackgroundColor) => {
       // Update the in-memory state.
-      projectionBackgroundColor = color;
+      DB.projection.backgroundColor = color;
 
       // Broadcast updated state to all clients.
-      io.emit("action:projection:background:update", projectionBackgroundColor);
-      console.log("Projection background updated:", projectionBackgroundColor);
+      io.emit(
+        "action:projection:background:update",
+        DB.projection.backgroundColor,
+      );
+      console.log(
+        "Projection background updated:",
+        DB.projection.backgroundColor,
+      );
     },
   );
 
@@ -46,11 +55,17 @@ export function registerProjectionHandlers(
     "action:projection:orientation:change",
     (orientation: ProjectionOrientation) => {
       // Update the in-memory state.
-      projectorOrientation = orientation;
+      DB.projection.orientation = orientation;
 
       // Broadcast updated state to all clients.
-      io.emit("action:projection:orientation:update", projectorOrientation);
-      console.log("Projector orientation updated:", projectorOrientation);
+      io.emit(
+        "action:projection:orientation:update",
+        DB.projection.orientation,
+      );
+      console.log(
+        "Projector orientation updated:",
+        DB.projection.orientation,
+      );
     },
   );
 }

@@ -1,5 +1,6 @@
+// main.ts
 import { Server } from "socket_io";
-
+import { loadDB } from "./model/db_json.ts";
 import {
   type ClientToServerEvents,
   type ServerToClientEvents,
@@ -9,36 +10,37 @@ import {
 import { registerCornerHandlers } from "./controllers/cornerController.ts";
 import { registerProjectionHandlers } from "./controllers/projectionController.ts";
 
-// Create the Socket.IO server
-const io = new Server<ClientToServerEvents, ServerToClientEvents>({
-  cors: {
-    // TODO: DO NOT USE "*" IN PRODUCTION
-    origin: "*",
-  },
-});
+async function main() {
+  // Wait for our data store to be loaded so it is ready for our handlers.
+  await loadDB();
 
-// When a client connects
-io.on("connection", (socket) => {
-  console.log(`socket ${socket.id} connected`);
-
-  // ==============================
-  // Register event controllers
-  // ==============================
-  registerCornerHandlers(socket, io);
-  registerProjectionHandlers(socket, io);
-
-  // ==============================
-
-  // Listen for disconnect event.
-  socket.on("disconnect", (reason) => {
-    console.log(`socket ${socket.id} disconnected due to ${reason}`);
+  // Now that the store is loaded, we can safely initialize our server.
+  const io = new Server<ClientToServerEvents, ServerToClientEvents>({
+    cors: {
+      // TODO: DO NOT USE "*" IN PRODUCTION
+      origin: "*",
+    },
   });
-});
 
-console.log(`Starting Socket.IO server on port ${WEBSOCKET_PORT}...`);
+  io.on("connection", (socket) => {
+    console.log(`socket ${socket.id} connected`);
 
-// Start the HTTP server that Socket.IO attaches to
-Deno.serve({
-  handler: io.handler(),
-  port: WEBSOCKET_PORT,
-});
+    // Register event controllers.
+    registerCornerHandlers(socket, io);
+    registerProjectionHandlers(socket, io);
+
+    socket.on("disconnect", (reason) => {
+      console.log(`socket ${socket.id} disconnected due to ${reason}`);
+    });
+  });
+
+  console.log(`Starting Socket.IO server on port ${WEBSOCKET_PORT}...`);
+
+  // Start the HTTP server that Socket.IO attaches to.
+  Deno.serve({
+    handler: io.handler(),
+    port: WEBSOCKET_PORT,
+  });
+}
+
+main();

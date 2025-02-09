@@ -13,10 +13,12 @@ To run the project in one go, run the following command:
 deno run -A npm:concurrently "cd server && deno task dev" "cd browser && deno task dev"
 ```
 
+Persists state changes to `server/db.json` (every 3 seconds if changes exist).
+
 ## Using
 
 1. Open the browser at `http://localhost:3000` for the projector view.
-2. Open the browser at `http://localhost:3001/controller` for the controller view to keystone the image.
+2. Open the browser at `http://localhost:3000/controller` for the controller to keystone the projection.
 
 ## Dependencies
 

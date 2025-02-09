@@ -1,3 +1,6 @@
+# project local state
+db.json
+
 # build
 node_modules
 dist

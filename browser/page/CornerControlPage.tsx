@@ -8,6 +8,7 @@ import {
 import { useProjectionBackground } from "../hooks/useProjectionBackground.ts";
 import { useProjectionOrientation } from "../hooks/useProjectionOrientation.ts";
 import { ProjectionOrientation } from "#types/projectionTypes.ts";
+import { Link } from "react-router-dom";
 
 // TODO: Factor out components into separate files.
 
@@ -103,6 +104,9 @@ export function CornerControlPage() {
 
   return (
     <Container>
+      <h3>
+        <Link to="/clicker">Clicker</Link>
+      </h3>
       <h1>Corner Control</h1>
 
       {/* Corner selection */}

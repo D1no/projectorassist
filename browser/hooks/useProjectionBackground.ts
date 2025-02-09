@@ -2,22 +2,33 @@ import { useEffect, useState } from "react";
 import socket from "../lib/socket.ts";
 import { ProjectionBackgroundColor } from "#types/projectionTypes.ts";
 
+// TODO: Persistance should be done via a context provider, higher order component, or similar.
+/**
+ * Makes sure that during re-mounting the component, but no new socket connection
+ * that updates us, we keep the setting from the last component mounting.
+ */
+let rememberedBackgroundColor: ProjectionBackgroundColor =
+  ProjectionBackgroundColor.Invisible;
+let rememberedPreviousColor: ProjectionBackgroundColor =
+  ProjectionBackgroundColor.Invisible;
+
 export function useProjectionBackground() {
   // The currently visible background color.
   const [backgroundColor, setBackgroundColor] = useState(
-    ProjectionBackgroundColor.Invisible,
+    rememberedBackgroundColor,
   );
   // Flag to know if we are in "aligning" mode.
   const [isAligning, setIsAligning] = useState(false);
   // The toggled background color (i.e. the color the user selected)
   // which is used to revert back after aligning is finished.
   const [previousColor, setPreviousColor] = useState(
-    ProjectionBackgroundColor.Invisible,
+    rememberedPreviousColor,
   );
 
   useEffect(() => {
-    const handleBackgroundColor = (color: string) => {
-      setBackgroundColor(color as ProjectionBackgroundColor);
+    const handleBackgroundColor = (color: ProjectionBackgroundColor) => {
+      setBackgroundColor(color);
+      rememberedBackgroundColor = color;
     };
     socket.on("action:projection:background:update", handleBackgroundColor);
 
@@ -28,6 +39,7 @@ export function useProjectionBackground() {
 
   function handleBackgroundColorSet(color: ProjectionBackgroundColor) {
     setBackgroundColor(color);
+    rememberedBackgroundColor = color;
     socket.emit("action:projection:background:change", color);
   }
 
@@ -41,6 +53,7 @@ export function useProjectionBackground() {
       // While aligning, update the saved toggled color
       // but leave the displayed color as .align.
       setPreviousColor(toggledColor);
+      rememberedPreviousColor = toggledColor;
       // Optionally, notify the server of the desired toggled color.
       socket.emit("action:projection:background:change", toggledColor);
     } else {
@@ -61,6 +74,7 @@ export function useProjectionBackground() {
       if (!isAligning) {
         setIsAligning(true);
         setPreviousColor(backgroundColor);
+        rememberedPreviousColor = backgroundColor;
         handleBackgroundColorSet(ProjectionBackgroundColor.Align);
       }
     } else {

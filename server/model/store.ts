@@ -5,7 +5,7 @@ import {
 } from "#types/projectionTypes.ts";
 import type { DataModel, ModelSchemaVersion } from "./model.ts";
 
-export const currentModelSchemaVersion: ModelSchemaVersion = "0.1.0";
+export const currentModelSchemaVersion: ModelSchemaVersion = "0.1.1";
 
 // Default store values.
 export let store: DataModel = {
@@ -19,6 +19,9 @@ export let store: DataModel = {
     topRight: { x: 90, y: 5 },
     bottomRight: { x: 90, y: 95 },
     bottomLeft: { x: 30, y: 95 },
+  },
+  slides: {
+    currentSlide: 0,
   },
 };
 

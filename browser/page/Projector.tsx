@@ -1,8 +1,8 @@
 import { CornerPinImage } from "../components/CornerPinImage.tsx";
-import alignmentImage from "#assets/slides/0_alignment_ipad_2022_12inch_portrait.png";
-
 import { useCornerControl } from "../hooks/useCornerControl.ts";
 import { useProjectionBackground } from "../hooks/useProjectionBackground.ts";
+
+import getSlide from "#lib/getSlide.ts";
 
 export function Projector() {
   const { cornersViewport } = useCornerControl();
@@ -10,7 +10,7 @@ export function Projector() {
 
   return (
     <CornerPinImage
-      src={alignmentImage}
+      src={getSlide(0).urlRelative}
       corners={cornersViewport}
       srcWidth={1366}
       srcHeight={1024}

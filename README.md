@@ -15,7 +15,7 @@ deno run -A npm:concurrently "cd server && deno task dev" "cd browser && deno ta
 
  - Edit `config.example.ts` and rename to `config.ts`. Otherwise default localhost.
  - Persists state changes to `server/db.json` (every 3 seconds if changes exist).
- - `util_apply_ipad_portrait_rotation.sh` will rotate images in `assets/slides/*` if they contain the string `portrait` in their filename and are not already rotated to landscape aspect ratio.
+ - `util_apply_ipad_portrait_rotation.sh` will rotate images in `assets/public/slides/*` if they contain the string `portrait` in their filename and are not already rotated to landscape aspect ratio.
     > This is to be able to author slides in portrait mode for an iPad screen and project them correctly in the viewport.
 
 ## Using

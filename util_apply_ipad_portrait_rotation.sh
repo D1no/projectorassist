@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # PURPOSE:
-#   This script recursively searches for PNG files in its own directory's assets/slides
+#   This script recursively searches for PNG files in its own directory's assets/public/slides
 #   whose names contain "portrait" and checks if they have a portrait
 #   aspect ratio (height > width). If so, it rotates them in-place
 #   by -90° (counter-clockwise) using ImageMagick v7 (the 'magick' command).
@@ -27,8 +27,8 @@ command -v magick >/dev/null 2>&1 || {
   exit 1
 }
 
-# Recursively find all .png files in the script's own assets/slides directory
-find "$SCRIPT_DIR/assets/slides" -type f -iname "*.png" | while read -r FILE; do
+# Recursively find all .png files in the script's own assets/public/slides directory
+find "$SCRIPT_DIR/assets/public/slides" -type f -iname "*.png" | while read -r FILE; do
   # Check if the file name contains "portrait"
   if [[ "$FILE" == *"portrait"* ]]; then
     

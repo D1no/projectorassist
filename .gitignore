@@ -1,8 +1,8 @@
 # project
 
 # my content files
-assets/slides/*
-!assets/slides/*alignment*
+assets/public/slides/*
+!assets/public/slides/*alignment*
 
 # config
 config.ts

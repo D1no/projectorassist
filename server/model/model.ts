@@ -7,7 +7,7 @@ import type {
 /**
  * Allowed schema versions for the data model.
  */
-export type ModelSchemaVersion = "0.1.0";
+export type ModelSchemaVersion = "0.1.0" | "0.1.1";
 
 /**
  * The shape of the global data model to persist state.
@@ -19,4 +19,7 @@ export interface DataModel {
     backgroundColor: ProjectionBackgroundColor;
   };
   corners: CornersViewportCoordinates;
+  slides: {
+    currentSlide: number;
+  };
 }

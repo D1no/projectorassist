@@ -7,6 +7,8 @@ import {
 } from "#types/cornerTypes.ts";
 import { useProjectionOrientation } from "./useProjectionOrientation.ts";
 
+// TODO: This huge hook needs to be split into smaller hooks.
+
 const initialCornerCordinates: CornersViewportCoordinates = {
   topLeft: { x: 30, y: 5 },
   topRight: { x: 90, y: 5 },

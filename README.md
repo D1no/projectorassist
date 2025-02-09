@@ -13,6 +13,11 @@ To run the project in one go, run the following command:
 deno run -A npm:concurrently "cd server && deno task dev" "cd browser && deno task dev"
 ```
 
+## Using
+
+1. Open the browser at `http://localhost:3000` for the projector view.
+2. Open the browser at `http://localhost:3001/controller` for the controller view to keystone the image.
+
 ## Dependencies
 
 You need to have Deno v2.0.0 or later installed to run this repo.

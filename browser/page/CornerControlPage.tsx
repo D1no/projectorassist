@@ -9,7 +9,7 @@ import { useProjectionBackground } from "../hooks/useProjectionBackground.ts";
 import { useProjectionOrientation } from "../hooks/useProjectionOrientation.ts";
 import { ProjectionOrientation } from "#types/projectionTypes.ts";
 
-/* Styled Components */
+// TODO: Factor out components into separate files.
 
 const Container = styled.div`
   display: flex;

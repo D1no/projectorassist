@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useSlide } from "../hooks/useSlide.ts";
 import styled from "@emotion/styled";
 import { useProjectionBackground } from "../hooks/useProjectionBackground.ts";
+import { useEffect } from "react";
 
 const FullScreenContainer = styled.div`
   display: flex;
@@ -43,6 +44,21 @@ export function SlideClicker() {
   const { currentSlideIndex, totalSlides, handleGoNext, handleGoBack } =
     useSlide();
   const { handleBackgroundColorToggle } = useProjectionBackground();
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "ArrowRight") {
+        handleGoNext();
+      } else if (event.key === "ArrowLeft") {
+        handleGoBack();
+      }
+    };
+
+    addEventListener("keydown", handleKeyDown);
+    return () => {
+      removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleGoNext, handleGoBack]);
 
   return (
     <FullScreenContainer>

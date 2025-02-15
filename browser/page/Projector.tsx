@@ -5,6 +5,16 @@ import { useProjectionVisiblity } from "../hooks/useProjectionVisiblity.ts";
 
 import { useSlide } from "../hooks/useSlide.ts";
 
+// TODO: Currenty hardcoded dimensions. Should by dynamic.
+/**
+ * Width of the images in the slides directory (landscaped).
+ */
+export const slideWidth = 1366;
+/**
+ * Height of the images in the slides directory (landscaped).
+ */
+export const slideHeight = 1024;
+
 export function Projector() {
   const { cornersViewport } = useCornerControl();
   const { backgroundColor } = useProjectionBackground();
@@ -15,8 +25,8 @@ export function Projector() {
     <CornerPinImage
       src={slide}
       corners={cornersViewport}
-      srcWidth={1366}
-      srcHeight={1024}
+      srcWidth={slideWidth}
+      srcHeight={slideHeight}
       backgroundColor={backgroundColor}
       visible={visible}
     />

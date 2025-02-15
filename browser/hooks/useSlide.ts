@@ -49,9 +49,19 @@ export function useSlide() {
 
   return {
     slide,
+    /**
+     * Unbounded lookup of the slide URL by index.
+     */
+    slideByIndex: getSlideURL,
     currentSlideIndex,
     totalSlides: getSlideCount(),
+    /**
+     * Go to the next slide if possible.
+     */
     handleGoNext,
+    /**
+     * Go to the previous slide if possible.
+     */
     handleGoBack,
     handleSlideChange,
   };

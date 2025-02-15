@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Projector } from "./page/Projector.tsx";
 import { CornerControlPage } from "./page/CornerControlPage.tsx";
 import { SlideClicker } from "./page/SlideClicker.tsx";
+import { Preview } from "./page/Preview.tsx";
 
 export function App() {
   return (
@@ -13,7 +14,11 @@ export function App() {
         {/* The alignment control UI */}
         <Route path="/control" element={<CornerControlPage />} />
 
+        {/* The slide clicker UI */}
         <Route path="/clicker" element={<SlideClicker />} />
+
+        {/* Preview of the slide in correct orientation */}
+        <Route path="/preview" element={<Preview />} />
       </Routes>
     </BrowserRouter>
   );

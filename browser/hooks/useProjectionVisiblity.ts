@@ -7,18 +7,18 @@ import { ProjectionVisible } from "#types/projectionTypes.ts";
  * Makes sure that during re-mounting the component, but no new socket connection
  * that updates us, we keep the setting from the last component mounting.
  */
-let rememberedVisebility: ProjectionVisible = true;
+let rememberedvisibility: ProjectionVisible = true;
 
 export function useProjectionVisiblity() {
   // The current visibility of the video projector.
   const [visible, setVisibility] = useState<ProjectionVisible>(
-    rememberedVisebility,
+    rememberedvisibility,
   );
 
   useEffect(() => {
     const handleVisibility = (visibility: ProjectionVisible) => {
       setVisibility(visibility);
-      rememberedVisebility = visibility;
+      rememberedvisibility = visibility;
     };
     socket.on("action:projection:visible:update", handleVisibility);
 
@@ -29,7 +29,7 @@ export function useProjectionVisiblity() {
 
   function handleVisibilitySet(visibility: ProjectionVisible) {
     setVisibility(visibility);
-    rememberedVisebility = visibility;
+    rememberedvisibility = visibility;
     socket.emit("action:projection:visible:change", visibility);
   }
 

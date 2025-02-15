@@ -3,6 +3,7 @@ import type { CornersViewportCoordinates } from "./cornerTypes.ts";
 import {
   ProjectionBackgroundColor,
   ProjectionOrientation,
+  ProjectionVisible,
 } from "./projectionTypes.ts";
 
 /**
@@ -38,12 +39,17 @@ export const THROTTELING_EXCLUDE = "action:";
 export interface ServerToClientEvents {
   "corners:update": (data: CornersViewportCoordinates) => void;
   // Add other events that the server sends to the client.
+
   "action:projection:background:update": (
     color: ProjectionBackgroundColor,
   ) => void;
   "action:projection:orientation:update": (
     orientation: ProjectionOrientation,
   ) => void;
+  "action:projection:visible:update": (
+    visible: ProjectionVisible,
+  ) => void;
+
   "action:slides:currentSlide:update": (slide: number) => void;
 }
 
@@ -57,11 +63,16 @@ export interface ServerToClientEvents {
 export interface ClientToServerEvents {
   "corners:change": (data: CornersViewportCoordinates) => void;
   // Excluded from throttle
+
   "action:projection:background:change": (
     color: ProjectionBackgroundColor,
   ) => void;
   "action:projection:orientation:change": (
     orientation: ProjectionOrientation,
   ) => void;
+  "action:projection:visible:change": (
+    visible: ProjectionVisible,
+  ) => void;
+
   "action:slides:currentSlide:change": (slide: number) => void;
 }

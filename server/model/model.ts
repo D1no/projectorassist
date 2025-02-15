@@ -2,6 +2,7 @@ import type { CornersViewportCoordinates } from "#types/cornerTypes.ts";
 import type {
   ProjectionBackgroundColor,
   ProjectionOrientation,
+  ProjectionVisible,
 } from "#types/projectionTypes.ts";
 
 /**
@@ -17,6 +18,7 @@ export interface DataModel {
   projection: {
     orientation: ProjectionOrientation;
     backgroundColor: ProjectionBackgroundColor;
+    visible: ProjectionVisible;
   };
   corners: CornersViewportCoordinates;
   slides: {

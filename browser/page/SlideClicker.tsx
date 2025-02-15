@@ -3,6 +3,7 @@ import { useSlide } from "../hooks/useSlide.ts";
 import styled from "@emotion/styled";
 import { useProjectionBackground } from "../hooks/useProjectionBackground.ts";
 import { useEffect } from "react";
+import { useProjectionVisiblity } from "../hooks/useProjectionVisiblity.ts";
 
 const FullScreenContainer = styled.div`
   display: flex;
@@ -44,21 +45,34 @@ export function SlideClicker() {
   const { currentSlideIndex, totalSlides, handleGoNext, handleGoBack } =
     useSlide();
   const { handleBackgroundColorToggle } = useProjectionBackground();
+  const { visible, handleVisibilityToggle } = useProjectionVisiblity();
 
+  // Handle Keyboard Events
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      /**
+       * Left-Right Arrow to navigate between slides
+       * */
       if (event.key === "ArrowRight") {
         handleGoNext();
       } else if (event.key === "ArrowLeft") {
         handleGoBack();
       }
+
+      /**
+       * Down Arrow to toggle Projection Visibility
+       * */
+      if (event.key === "ArrowDown") {
+        handleVisibilityToggle();
+      }
     };
 
     addEventListener("keydown", handleKeyDown);
+
     return () => {
       removeEventListener("keydown", handleKeyDown);
     };
-  }, [handleGoNext, handleGoBack]);
+  }, [handleGoNext, handleGoBack, handleVisibilityToggle]);
 
   return (
     <FullScreenContainer>
@@ -71,6 +85,12 @@ export function SlideClicker() {
       <h2>
         {currentSlideIndex + 1} of {totalSlides}
       </h2>
+      <LargeButtonSecondary
+        onClick={handleVisibilityToggle}
+        style={{ color: visible ? "blue" : "inherit" }}
+      >
+        {visible ? "ON" : "OFF"}
+      </LargeButtonSecondary>
       <LargeButtonSecondary onClick={handleGoBack}>Back</LargeButtonSecondary>
       <LargeButtonMain onClick={handleGoNext}>Forward</LargeButtonMain>
     </FullScreenContainer>

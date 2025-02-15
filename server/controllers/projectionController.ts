@@ -7,6 +7,7 @@ import type {
 import {
   ProjectionBackgroundColor,
   ProjectionOrientation,
+  ProjectionVisible,
 } from "#types/projectionTypes.ts";
 import { DB } from "../model/db_json.ts";
 
@@ -25,10 +26,17 @@ export function registerProjectionHandlers(
     "action:projection:background:update",
     DB.projection.backgroundColor,
   );
+
   // Immediately send the current projector orientation to the new client.
   socket.emit(
     "action:projection:orientation:update",
     DB.projection.orientation,
+  );
+
+  // Immediately send the current projection visibility to the new client.
+  socket.emit(
+    "action:projection:visible:update",
+    DB.projection.visible,
   );
 
   // Listen for projection background change events.
@@ -65,6 +73,25 @@ export function registerProjectionHandlers(
       console.log(
         "Projector orientation updated:",
         DB.projection.orientation,
+      );
+    },
+  );
+
+  // Listen for projector visibility change events.
+  socket.on(
+    "action:projection:visible:change",
+    (visible: ProjectionVisible) => {
+      // Update the in-memory state.
+      DB.projection.visible = visible;
+
+      // Broadcast updated state to all clients.
+      io.emit(
+        "action:projection:visible:update",
+        DB.projection.visible,
+      );
+      console.log(
+        "Projector visibility updated:",
+        DB.projection.visible,
       );
     },
   );

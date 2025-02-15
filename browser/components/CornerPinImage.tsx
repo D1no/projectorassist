@@ -45,6 +45,8 @@ interface CornerPinImageProps {
   srcHeight: number;
   /** The background color for the container. Default: "#8d8d8d". */
   backgroundColor?: string;
+  /** Should the projection be visible? */
+  visible?: boolean;
 }
 
 interface ContainerProps {
@@ -63,6 +65,7 @@ interface PinnedImageProps {
   srcWidth: number;
   srcHeight: number;
   transform: string;
+  visible: boolean;
 }
 
 const PinnedImage = styled.img<PinnedImageProps>`
@@ -73,6 +76,7 @@ const PinnedImage = styled.img<PinnedImageProps>`
   height: ${(props) => props.srcHeight}px;
   transform-origin: 0 0;
   transform: ${(props) => props.transform};
+  visibility: ${(props) => (props.visible ? "visible" : "hidden")};
 `;
 
 export function CornerPinImage({
@@ -81,6 +85,7 @@ export function CornerPinImage({
   srcWidth,
   srcHeight,
   backgroundColor = "#8d8d8d",
+  visible = false,
 }: CornerPinImageProps) {
   const windowSize = useWindowSize();
 
@@ -115,6 +120,7 @@ export function CornerPinImage({
         srcHeight={srcHeight}
         transform={transformStr}
         alt="Corner-pinned projection"
+        visible={visible}
       />
     </Container>
   );

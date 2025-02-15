@@ -13,6 +13,7 @@ export let store: DataModel = {
   projection: {
     orientation: ProjectionOrientation.Portrait,
     backgroundColor: ProjectionBackgroundColor.Invisible,
+    visible: true,
   },
   corners: {
     topLeft: { x: 30, y: 5 },

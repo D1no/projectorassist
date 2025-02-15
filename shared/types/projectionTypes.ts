@@ -37,3 +37,8 @@ export enum ProjectionOrientation {
    */
   PortraitInverted = "PortraitInverted",
 }
+
+/**
+ * If the image projection is visible or not.
+ */
+export type ProjectionVisible = boolean;

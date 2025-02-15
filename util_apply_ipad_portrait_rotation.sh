@@ -41,8 +41,8 @@ find "$SCRIPT_DIR/assets/public/slides" -type f -iname "*.png" | while read -r F
     if [ "$WIDTH" -lt "$HEIGHT" ]; then
       echo "Rotating '$FILE' counter-clockwise (-90°)."
       magick "$FILE" -rotate -90 "$FILE"
-    else
-      echo "Skipping '$FILE' (already landscape or square)."
     fi
   fi
 done
+
+echo "COMPLETE: Rotate files named 'portrait' in their name in the assets/slides/** folder."

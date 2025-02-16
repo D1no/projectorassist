@@ -51,25 +51,29 @@ export function SlideClicker() {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       /**
-       * Left-Right Arrow to navigate between slides
+       * Navigate Between Slides
        * */
-      if (event.key === "ArrowRight") {
+      if (event.key === "ArrowRight" || event.key === "n") {
         handleGoNext();
-      } else if (event.key === "ArrowLeft") {
+      } else if (event.key === "ArrowLeft" || event.key === "b") {
         handleGoBack();
       }
 
       /**
-       * Down Arrow to toggle Projection Visibility
+       * Projection Visibility
        * */
-      if (event.key === "ArrowDown") {
+      if (
+        event.key === "ArrowDown" ||
+        event.key === " " ||
+        event.key === "Spacebar"
+      ) {
         handleVisibilityToggle();
       }
 
       /**
-       * Spacebar to toggle Background Color
+       * Toggle Background Color
        */
-      if (event.key === " " || event.key === "Spacebar") {
+      if (event.key === "ArrowUp" || event.key === "h") {
         handleBackgroundColorToggle();
       }
     };

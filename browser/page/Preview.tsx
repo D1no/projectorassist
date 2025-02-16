@@ -1,4 +1,5 @@
 import { useProjectionBackground } from "../hooks/useProjectionBackground.ts";
+import { useProjectionVisiblity } from "../hooks/useProjectionVisiblity.ts";
 import { useSlide } from "../hooks/useSlide.ts";
 import { slideWidth, slideHeight } from "./Projector.tsx";
 
@@ -7,6 +8,7 @@ import { slideWidth, slideHeight } from "./Projector.tsx";
 export function Preview() {
   const { backgroundColor } = useProjectionBackground();
   const { slide, currentSlideIndex, slideByIndex, totalSlides } = useSlide();
+  const { visible } = useProjectionVisiblity();
 
   function seekSlideAhead(seek: number) {
     if (currentSlideIndex + seek <= 0) {
@@ -28,8 +30,29 @@ export function Preview() {
         justifyContent: "center",
         alignItems: "center",
         height: "100vh",
+        position: "relative",
       }}
     >
+      {/* When the visible flag is false, display "hidden" in white text with a red background on the center bottom of the window */}
+      {!visible && (
+        <div
+          style={{
+            position: "absolute",
+            bottom: 0,
+            width: "100%",
+            textAlign: "center",
+            verticalAlign: "middle",
+            backgroundColor: "red",
+            opacity: 0.8,
+            color: "white",
+            padding: "20px",
+            zIndex: 1,
+            fontSize: "2rem",
+          }}
+        >
+          PROJECTION HIDDEN
+        </div>
+      )}
       <div
         style={{
           width: "100%",

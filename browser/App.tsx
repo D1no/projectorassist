@@ -3,6 +3,7 @@ import { Projector } from "./page/Projector.tsx";
 import { CornerControlPage } from "./page/CornerControlPage.tsx";
 import { SlideClicker } from "./page/SlideClicker.tsx";
 import { Preview } from "./page/Preview.tsx";
+import { FlickerTest } from "./page/FlickerTest.tsx";
 
 export function App() {
   return (
@@ -19,6 +20,9 @@ export function App() {
 
         {/* Preview of the slide in correct orientation */}
         <Route path="/preview" element={<Preview />} />
+
+        {/* Flicker TESTING */}
+        <Route path="/flicker" element={<FlickerTest />} />
       </Routes>
     </BrowserRouter>
   );

@@ -65,6 +65,13 @@ export function SlideClicker() {
       if (event.key === "ArrowDown") {
         handleVisibilityToggle();
       }
+
+      /**
+       * Spacebar to toggle Background Color
+       */
+      if (event.key === " " || event.key === "Spacebar") {
+        handleBackgroundColorToggle();
+      }
     };
 
     addEventListener("keydown", handleKeyDown);
@@ -72,7 +79,12 @@ export function SlideClicker() {
     return () => {
       removeEventListener("keydown", handleKeyDown);
     };
-  }, [handleGoNext, handleGoBack, handleVisibilityToggle]);
+  }, [
+    handleGoNext,
+    handleGoBack,
+    handleVisibilityToggle,
+    handleBackgroundColorToggle,
+  ]);
 
   return (
     <FullScreenContainer>

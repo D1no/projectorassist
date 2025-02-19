@@ -6,7 +6,8 @@ import { slideWidth, slideHeight } from "./Projector.tsx";
 // TODO: Should react to orientation and aspect ratio. Flexbox needs to be done differently or maybe using css grid.
 
 export function Preview() {
-  const { backgroundColor } = useProjectionBackground();
+  const { backgroundColor, backgroundColorInverted } =
+    useProjectionBackground();
   const { slide, currentSlideIndex, slideByIndex, totalSlides } = useSlide();
   const { visible } = useProjectionVisiblity();
 
@@ -60,11 +61,7 @@ export function Preview() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          borderRight: `1px solid rgb(${
-            255 - parseInt(backgroundColor.slice(1, 3), 16)
-          }, ${255 - parseInt(backgroundColor.slice(3, 5), 16)}, ${
-            255 - parseInt(backgroundColor.slice(5, 7), 16)
-          })`,
+          borderRight: `1px solid ${backgroundColorInverted}`,
         }}
       >
         <img

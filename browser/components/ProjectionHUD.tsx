@@ -4,6 +4,7 @@ import { useWindowSize } from "../hooks/useWindowSize.ts";
 import { useProjectionBackground } from "../hooks/useProjectionBackground.ts";
 
 // TODO: Very hacky quick and dirty.
+// TODO: Hardcored positioning and dimensions.
 
 interface ContainerProps {
   width: number;
@@ -30,9 +31,9 @@ const HUD = styled.div<HUDProps>`
   position: relative;
   display: flex;
   justify-content: left;
-  align-items: center;
   flex-grow: 1;
-  margin: ${(props) => props.insetMargin}px;
+  padding: 20px 0px 20px 0px;
+  margin-left: ${(props) => props.insetMargin}px;
 `;
 
 interface RotatedTextProps {
@@ -68,7 +69,7 @@ interface ProjectionHUDProps {
   insetMargin?: number;
 }
 
-export function ProjectionHUD({ insetMargin = 0 }: ProjectionHUDProps) {
+export function ProjectionHUD({ insetMargin = -20 }: ProjectionHUDProps) {
   const { currentSlideIndex, totalSlides } = useSlide();
   const { backgroundColor, backgroundColorInverted } =
     useProjectionBackground();

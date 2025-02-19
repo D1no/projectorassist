@@ -9,6 +9,7 @@ import { useProjectionBackground } from "../hooks/useProjectionBackground.ts";
 import { useProjectionOrientation } from "../hooks/useProjectionOrientation.ts";
 import { ProjectionOrientation } from "#types/projectionTypes.ts";
 import { Link } from "react-router-dom";
+import { useProjectionKeystoneActive } from "../hooks/useProjectionKeystoneActive.ts";
 
 // TODO: Factor out components into separate files.
 
@@ -97,6 +98,9 @@ export function CornerControlPage() {
   const { orientation, orientationOptions, handleOrientationSet } =
     useProjectionOrientation();
 
+  const { keystoneActive, handleKeystoneActiveToggle } =
+    useProjectionKeystoneActive();
+
   // Whenever isDragging changes, update the background aligning state.
   useEffect(() => {
     handleBackgroundColorAligning(isDragging);
@@ -147,6 +151,9 @@ export function CornerControlPage() {
       </ButtonGroup>
       <Button onClick={() => handleBackgroundColorToggle()}>
         Toggle Background Color
+      </Button>
+      <Button onClick={() => handleKeystoneActiveToggle()}>
+        Toggle Keystone Active: {keystoneActive ? "On" : "Off"}
       </Button>
       <Dropdown
         value={orientation}

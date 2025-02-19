@@ -3,6 +3,7 @@ import { useWindowSize } from "../hooks/useWindowSize.ts";
 import { matrix3DForQuadToQuad } from "#lib/matrix3DForQuadToQuad.tsx";
 
 import type { CornersViewportCoordinates } from "#types/cornerTypes.ts";
+import { ProjectionKeystoneActive } from "#types/projectionTypes.ts";
 
 /**
  * PURPOSE:
@@ -39,6 +40,10 @@ interface CornerPinImageProps {
   src: string;
   /** The corners in percentages of the viewport (0-100). */
   corners: CornersViewportCoordinates;
+  /**
+   * The corners to use if `keystoneActive` is false.
+   */
+  cornersDefault?: CornersViewportCoordinates;
   /** The original (untransformed) width of the image. */
   srcWidth: number;
   /** The original (untransformed) height of the image. */
@@ -47,7 +52,12 @@ interface CornerPinImageProps {
   backgroundColor?: string;
   /** Should the projection be visible? */
   visible?: boolean;
+  /** If the keystone should be applied */
+  keystoneActive?: ProjectionKeystoneActive;
 }
+
+// TODO: Move to shared/types/matrixTypes.ts
+type screenspacePixelQuad = [number, number][];
 
 interface ContainerProps {
   backgroundColor: string;
@@ -82,10 +92,17 @@ const PinnedImage = styled.img<PinnedImageProps>`
 export function CornerPinImage({
   src,
   corners,
+  cornersDefault = {
+    topLeft: { x: 0, y: 0 },
+    topRight: { x: 100, y: 0 },
+    bottomRight: { x: 100, y: 100 },
+    bottomLeft: { x: 0, y: 100 },
+  },
   srcWidth,
   srcHeight,
   backgroundColor = "#8d8d8d",
   visible = false,
+  keystoneActive = true,
 }: CornerPinImageProps) {
   const windowSize = useWindowSize();
 
@@ -94,23 +111,40 @@ export function CornerPinImage({
   const yPx = (pct: number) => (pct / 100) * windowSize.height;
 
   // Destination quad: topLeft -> topRight -> bottomRight -> bottomLeft
-  const dstQuad: [number, number][] = [
+  const dstQuad: screenspacePixelQuad = [
     [xPx(corners.topLeft.x), yPx(corners.topLeft.y)],
     [xPx(corners.topRight.x), yPx(corners.topRight.y)],
     [xPx(corners.bottomRight.x), yPx(corners.bottomRight.y)],
     [xPx(corners.bottomLeft.x), yPx(corners.bottomLeft.y)],
   ];
 
+  // Default corners when keystone is not active
+  const dstQuadDefault: screenspacePixelQuad = [
+    [xPx(cornersDefault.topLeft.x), yPx(cornersDefault.topLeft.y)],
+    [xPx(cornersDefault.topRight.x), yPx(cornersDefault.topRight.y)],
+    [xPx(cornersDefault.bottomRight.x), yPx(cornersDefault.bottomRight.y)],
+    [xPx(cornersDefault.bottomLeft.x), yPx(cornersDefault.bottomLeft.y)],
+  ];
+
   // Source quad: the untransformed bounding box of the image
-  const srcQuad: [number, number][] = [
+  const srcQuad: screenspacePixelQuad = [
     [0, 0],
     [srcWidth, 0],
     [srcWidth, srcHeight],
     [0, srcHeight],
   ];
 
+  // Our Target quad
+  let transformToQuad: screenspacePixelQuad;
+
+  if (keystoneActive) {
+    transformToQuad = dstQuad;
+  } else {
+    transformToQuad = dstQuadDefault;
+  }
+
   // Compute the projective transform
-  const transformStr = matrix3DForQuadToQuad(srcQuad, dstQuad);
+  const transformStr = matrix3DForQuadToQuad(srcQuad, transformToQuad);
 
   return (
     <Container backgroundColor={backgroundColor}>

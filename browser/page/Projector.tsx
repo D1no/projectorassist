@@ -1,6 +1,7 @@
 import { CornerPinImage } from "../components/CornerPinImage.tsx";
 import { useCornerControl } from "../hooks/useCornerControl.ts";
 import { useProjectionBackground } from "../hooks/useProjectionBackground.ts";
+import { useProjectionKeystoneActive } from "../hooks/useProjectionKeystoneActive.ts";
 import { useProjectionVisiblity } from "../hooks/useProjectionVisiblity.ts";
 
 import { useSlide } from "../hooks/useSlide.ts";
@@ -20,6 +21,7 @@ export function Projector() {
   const { backgroundColor } = useProjectionBackground();
   const { visible } = useProjectionVisiblity();
   const { slide } = useSlide();
+  const { keystoneActive } = useProjectionKeystoneActive();
 
   return (
     <CornerPinImage
@@ -29,6 +31,7 @@ export function Projector() {
       srcHeight={slideHeight}
       backgroundColor={backgroundColor}
       visible={visible}
+      keystoneActive={keystoneActive}
     />
   );
 }

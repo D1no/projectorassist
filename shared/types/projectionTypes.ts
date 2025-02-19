@@ -42,3 +42,8 @@ export enum ProjectionOrientation {
  * If the image projection is visible or not.
  */
 export type ProjectionVisible = boolean;
+
+/**
+ * If the keystone should be active or not.
+ */
+export type ProjectionKeystoneActive = boolean;

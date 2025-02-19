@@ -2,6 +2,7 @@ import { SERVER_BASE_URL, SERVER_PORT } from "../../config.ts";
 import type { CornersViewportCoordinates } from "./cornerTypes.ts";
 import {
   ProjectionBackgroundColor,
+  ProjectionKeystoneActive,
   ProjectionOrientation,
   ProjectionVisible,
 } from "./projectionTypes.ts";
@@ -49,6 +50,9 @@ export interface ServerToClientEvents {
   "action:projection:visible:update": (
     visible: ProjectionVisible,
   ) => void;
+  "action:projection:keystone:update": (
+    active: ProjectionKeystoneActive,
+  ) => void;
 
   "action:slides:currentSlide:update": (slide: number) => void;
 }
@@ -72,6 +76,9 @@ export interface ClientToServerEvents {
   ) => void;
   "action:projection:visible:change": (
     visible: ProjectionVisible,
+  ) => void;
+  "action:projection:keystone:change": (
+    active: ProjectionKeystoneActive,
   ) => void;
 
   "action:slides:currentSlide:change": (slide: number) => void;

@@ -1,6 +1,7 @@
 import type { CornersViewportCoordinates } from "#types/cornerTypes.ts";
 import type {
   ProjectionBackgroundColor,
+  ProjectionKeystoneActive,
   ProjectionOrientation,
   ProjectionVisible,
 } from "#types/projectionTypes.ts";
@@ -19,6 +20,10 @@ export interface DataModel {
     orientation: ProjectionOrientation;
     backgroundColor: ProjectionBackgroundColor;
     visible: ProjectionVisible;
+    /**
+     * Whether the keystone correction is enabled.
+     */
+    keystone: ProjectionKeystoneActive;
   };
   corners: CornersViewportCoordinates;
   slides: {

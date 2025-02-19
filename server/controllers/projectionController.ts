@@ -6,6 +6,7 @@ import type {
 
 import {
   ProjectionBackgroundColor,
+  ProjectionKeystoneActive,
   ProjectionOrientation,
   ProjectionVisible,
 } from "#types/projectionTypes.ts";
@@ -37,6 +38,12 @@ export function registerProjectionHandlers(
   socket.emit(
     "action:projection:visible:update",
     DB.projection.visible,
+  );
+
+  // Immediately send the current keystone state to the new client.
+  socket.emit(
+    "action:projection:keystone:update",
+    DB.projection.keystone,
   );
 
   // Listen for projection background change events.
@@ -92,6 +99,25 @@ export function registerProjectionHandlers(
       console.log(
         "Projector visibility updated:",
         DB.projection.visible,
+      );
+    },
+  );
+
+  // Listen for keystone active? change events.
+  socket.on(
+    "action:projection:keystone:change",
+    (active: ProjectionKeystoneActive) => {
+      // Update the in-memory state.
+      DB.projection.keystone = active;
+
+      // Broadcast updated state to all clients.
+      io.emit(
+        "action:projection:keystone:update",
+        DB.projection.keystone,
+      );
+      console.log(
+        "Projector keystone updated:",
+        DB.projection.keystone,
       );
     },
   );

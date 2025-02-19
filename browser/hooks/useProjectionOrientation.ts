@@ -8,7 +8,7 @@ import { ProjectionOrientation } from "#types/projectionTypes.ts";
  * that updates us, we keep the setting from the last component mounting.
  */
 let rememberedOrientation: ProjectionOrientation =
-  ProjectionOrientation.Landscape;
+  ProjectionOrientation.Portrait;
 
 export function useProjectionOrientation() {
   // The current orientation of the video projector.

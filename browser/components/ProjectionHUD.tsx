@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { useSlide } from "../hooks/useSlide.ts";
 import { useWindowSize } from "../hooks/useWindowSize.ts";
+import { useProjectionBackground } from "../hooks/useProjectionBackground.ts";
 
 // TODO: Very hacky quick and dirty.
 
@@ -15,9 +16,7 @@ const Container = styled.div<ContainerProps>`
   left: 0;
   width: 100%;
   height: 100%;
-  height: 100%;
   overflow: hidden;
-  color: #000000;
   border: none;
   z-index: 2;
   display: flex;
@@ -36,7 +35,12 @@ const HUD = styled.div<HUDProps>`
   margin: ${(props) => props.insetMargin}px;
 `;
 
-const RotatedText = styled.div`
+interface RotatedTextProps {
+  textColor: string;
+  bgColor: string;
+}
+
+const RotatedText = styled.div<RotatedTextProps>`
   display: flex;
   justify-content: right;
   align-items: center;
@@ -47,12 +51,14 @@ const RotatedText = styled.div`
   /**
   * Positioning
   */
-  background-color: rgba(255, 255, 255, 0.5);
-  height: 200px;
-  width: 300px;
-  font-size: 100px;
-  padding-right: 20px;
-  border-radius: 20px;
+  background-color: ${(props) => props.bgColor};
+  color: ${(props) => props.textColor};
+  height: 80px;
+  width: 120px;
+  padding-right: 10px;
+  font-size: 40px;
+  line-height: 0px;
+  border-radius: 10px;
 `;
 
 interface ProjectionHUDProps {
@@ -62,14 +68,19 @@ interface ProjectionHUDProps {
   insetMargin?: number;
 }
 
-export function ProjectionHUD({ insetMargin = 20 }: ProjectionHUDProps) {
+export function ProjectionHUD({ insetMargin = 0 }: ProjectionHUDProps) {
   const { currentSlideIndex, totalSlides } = useSlide();
+  const { backgroundColor, backgroundColorInverted } =
+    useProjectionBackground();
   const windowSize = useWindowSize();
 
   return (
     <Container width={windowSize.width} height={windowSize.height}>
       <HUD insetMargin={insetMargin}>
-        <RotatedText>
+        <RotatedText
+          textColor={backgroundColor}
+          bgColor={backgroundColorInverted}
+        >
           {currentSlideIndex + 1}/{totalSlides}
         </RotatedText>
       </HUD>

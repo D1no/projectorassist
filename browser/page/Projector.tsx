@@ -1,4 +1,5 @@
 import { CornerPinImage } from "../components/CornerPinImage.tsx";
+import { ProjectionHUD } from "../components/ProjectionHUD.tsx";
 import { useCornerControl } from "../hooks/useCornerControl.ts";
 import { useProjectionBackground } from "../hooks/useProjectionBackground.ts";
 import { useProjectionKeystoneActive } from "../hooks/useProjectionKeystoneActive.ts";
@@ -24,14 +25,20 @@ export function Projector() {
   const { keystoneActive } = useProjectionKeystoneActive();
 
   return (
-    <CornerPinImage
-      src={slide}
-      corners={cornersViewport}
-      srcWidth={slideWidth}
-      srcHeight={slideHeight}
-      backgroundColor={backgroundColor}
-      visible={visible}
-      keystoneActive={keystoneActive}
-    />
+    <>
+      {/** TODO: HUD needs to be re-implemented */}
+      {visible && <ProjectionHUD />}
+
+      {/* The Keystoned Projection */}
+      <CornerPinImage
+        src={slide}
+        corners={cornersViewport}
+        srcWidth={slideWidth}
+        srcHeight={slideHeight}
+        backgroundColor={backgroundColor}
+        visible={visible}
+        keystoneActive={keystoneActive}
+      />
+    </>
   );
 }

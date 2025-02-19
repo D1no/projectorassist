@@ -86,9 +86,24 @@ export function useProjectionBackground() {
     }
   }
 
+  /**
+   * Turns a HEX color string into an rgb color string that is the negative of the HEX color.
+   */
+  function getInverseOfHEXColor(
+    hexColor: ProjectionBackgroundColor | string,
+    alpha: number = 1,
+  ): string {
+    const r = 255 - parseInt(hexColor.slice(1, 3), 16);
+    const g = 255 - parseInt(hexColor.slice(3, 5), 16);
+    const b = 255 - parseInt(hexColor.slice(5, 7), 16);
+    return `rgb(${r}, ${g}, ${b}, ${alpha})`;
+  }
+
   return {
     backgroundColor,
+    backgroundColorInverted: getInverseOfHEXColor(backgroundColor),
     handleBackgroundColorToggle,
     handleBackgroundColorAligning,
+    getInverseOfHEXColor,
   };
 }

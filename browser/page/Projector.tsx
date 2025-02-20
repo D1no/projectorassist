@@ -27,7 +27,7 @@ export function Projector() {
   return (
     <>
       {/** TODO: HUD needs to be re-implemented */}
-      {visible && <ProjectionHUD />}
+      <ProjectionHUD visible={visible} />
 
       {/* The Keystoned Projection */}
       <CornerPinImage

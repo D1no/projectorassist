@@ -25,15 +25,18 @@ const Container = styled.div<ContainerProps>`
 
 interface HUDProps {
   insetMargin: number;
+  visible: boolean;
 }
 
 const HUD = styled.div<HUDProps>`
   position: relative;
   display: flex;
   justify-content: left;
+  align-items: center;
   flex-grow: 1;
   padding: 20px 0px 20px 0px;
   margin-left: ${(props) => props.insetMargin}px;
+  visibility: ${(props) => (props.visible ? "visible" : "hidden")};
 `;
 
 interface RotatedTextProps {
@@ -67,9 +70,16 @@ interface ProjectionHUDProps {
    * Inset Margin in pixels
    */
   insetMargin?: number;
+  /**
+   * Visible flag
+   */
+  visible?: boolean;
 }
 
-export function ProjectionHUD({ insetMargin = -20 }: ProjectionHUDProps) {
+export function ProjectionHUD({
+  insetMargin = -20,
+  visible = true,
+}: ProjectionHUDProps) {
   const { currentSlideIndex, totalSlides } = useSlide();
   const { backgroundColor, backgroundColorInverted } =
     useProjectionBackground();
@@ -77,7 +87,7 @@ export function ProjectionHUD({ insetMargin = -20 }: ProjectionHUDProps) {
 
   return (
     <Container width={windowSize.width} height={windowSize.height}>
-      <HUD insetMargin={insetMargin}>
+      <HUD insetMargin={insetMargin} visible={visible}>
         <RotatedText
           textColor={backgroundColor}
           bgColor={backgroundColorInverted}

@@ -82,7 +82,7 @@ export function ProjectionHUD({ insetMargin = -20 }: ProjectionHUDProps) {
           textColor={backgroundColor}
           bgColor={backgroundColorInverted}
         >
-          {currentSlideIndex + 1}/{totalSlides}
+          {currentSlideIndex}/{totalSlides - 1}
         </RotatedText>
       </HUD>
     </Container>

@@ -99,7 +99,7 @@ export function SlideClicker() {
         </ToggleText>
       </h3>
       <h2>
-        {currentSlideIndex + 1} of {totalSlides}
+        {currentSlideIndex} of {totalSlides-1}
       </h2>
       <LargeButtonSecondary
         onClick={handleVisibilityToggle}
